@@ -16,7 +16,7 @@ Features
   
 Demo Site
 ---------------
-http://lambda.nfbsotware.com
+http://sansserver.nfbsotware.com
 
 Getting started
 ---------------
