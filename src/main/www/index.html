@@ -1,0 +1,183 @@
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<meta name="pinterest" content="nopin"/>
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+    	<meta name="description" content=""/>
+    	<meta name="author" content=""/>
+		<title>NFB Software: Sans-Server Application Example</title>
+		<script src="js/jquery.js"></script>
+		<script src="js/aws-sdk.min.js"></script>
+	</head>
+	<body>
+		<h2>Sans-Server Application Example</h2>
+		<input type="button" id="loginButton" value="Login Now"/>
+		<br/>
+		<input type="button" id="viewUserButton" value="View User"/>
+	</body>
+	<script>
+		$(document).ready(function() 
+		{
+			AWS.config.region = 'us-east-1';
+			AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+				IdentityPoolId: 'us-east-1:62b6420c-927c-486e-b9fc-b7e9a363f353'
+			});
+			
+			/*
+			AWS.config.update({
+				accessKeyId:  "AKIAJMMZ72O6FIH3SCEQ",
+				secretAccessKey: "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",
+				region: "us-east-1"  
+			});
+			*/
+			
+			indexPageObject = new function ()
+			{
+				var awsLambda;
+				
+				var identityId;
+				var openIdToken;
+				
+				var baseServiceUrl = "https://uawr82yg7b.execute-api.us-east-1.amazonaws.com/development";
+				
+				this.initPage = function()
+				{
+					indexPageObject.awsLambda = new AWS.Lambda();
+					
+					$("#loginButton").click(function(){
+						indexPageObject.submitLoginForm();
+					});
+					
+					$("#viewUserButton").click(function(){
+						indexPageObject.viewUser();
+					});
+				}
+				
+				this.submitLoginForm = function()
+				{
+					var requestBody = {
+							username: "brendan@clemenzi.com",
+							passwordHash: "8743b52063cd84097a65d1633f5c74f5"
+					};
+					
+					$.ajax(
+					{
+						url: baseServiceUrl + "/login",
+						data: JSON.stringify(requestBody),
+						type: "POST",
+						cache:false,
+						dataType: "json",
+						success: function (response) 
+						{
+							console.log(response);
+							
+							if(response.status == "SUCCESS")
+							{
+								indexPageObject.identityId = response.data.authenticatedUser.identityId;
+								indexPageObject.openIdToken = response.data.authenticatedUser.openIdToken;
+								
+								alert("Hellz Yeah 1: " + indexPageObject.identityId);
+								alert("Hellz Yeah 2: " + indexPageObject.openIdToken);
+								
+								/*
+								var params = {
+										IdentityId: indexPageObject.identityId,
+								  		Logins: {
+								  			'cognito-identity.amazonaws.com': indexPageObject.openIdToken
+								  		}
+								};
+								
+								var cognitoidentity = new AWS.CognitoIdentity({region: 'us-east-1'});
+								cognitoidentity.getCredentialsForIdentity(params, function(err, data) {
+									if (err)
+									{
+										console.log(err, err.stack);
+									}
+									else
+									{
+										console.log(data); 
+									}
+								});
+								*/
+										
+								var creds = AWS.config.credentials;
+								creds.params.IdentityId = indexPageObject.identityId;
+								creds.params.Logins = {
+									'cognito-identity.amazonaws.com': indexPageObject.openIdToken
+								};
+								creds.expired = true;
+								
+								AWS.config.credentials.get(function(err)
+								{
+							    	if(err)
+							    	{
+							    		console.log(err, err.stack);
+							    	}
+							    	else
+							    	{
+							    		console.log("AWS Credentials: ", AWS.config.credentials);
+							    	}
+							    });
+							}
+							else
+							{
+								alert("Error: " + response.statusMessage);
+							}
+		                },
+		                error: function (data) 
+		                {
+		                	console.log(data);
+		                }
+					});
+				}
+				
+				this.viewUser = function()
+				{
+					var requestBody = {
+							username: "brendan@clemenzi.com"
+					};
+					
+					AWS.config.credentials.get(function(err)
+					{
+				    	if(err)
+				    	{
+				    		console.log(err, err.stack);
+				    	}
+				    	else
+				    	{
+							indexPageObject.awsLambda.invoke(
+								{
+									FunctionName: 'bclemenziViewUser',
+					        		Payload: JSON.stringify(requestBody)
+					        	},
+					        	function(err, data)
+					        	{
+					        		if (err)
+					        		{
+					        			alert("Som-Bitch");
+					        			console.log(err, err.stack);
+					        		}
+					        		else
+					        		{
+					        			var output = JSON.parse(data.Payload);
+					        			
+					        			var fullName = output.data.user.fullName;
+					        			alert("Welcome " + fullName);
+					        		}
+					        	}
+					    	);
+				    	}
+				    });
+				}
+			}
+			
+			indexPageObject.initPage();
+			
+			// Do something
+			
+			
+
+		});
+	</script>
+</html>

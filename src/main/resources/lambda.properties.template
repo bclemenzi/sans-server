@@ -1,0 +1,28 @@
+#######################################################################################################
+# AWS API Configuration
+#######################################################################################################
+aws.region=us-east-1
+aws.accessKey=<YOUR-ACCESS-KEY>
+aws.secretKey=<YOUR-SECRET-KEY>
+
+#######################################################################################################
+## AWS Cognito Properties
+#######################################################################################################
+aws.cognito.identityPoolId=<Cognito Identidy Pool Id - region:pool_id>
+aws.cognito.providerName=<Cognito Identidy Pool Provider Name - login.myapp.com>
+
+#######################################################################################################
+## AWS DynamoDb Properties
+##      I strongly recommend using QA, PRODUCTION, or the developer's name to isolate 
+##      these tables in AWS.
+##      ie:  aws.dynamodb.tableNamePrefix=BCLEMENZI
+#######################################################################################################
+aws.dynamodb.tableNamePrefix=<YOUR-ENVIRONMENT-PREFIX>
+
+#######################################################################################################
+## AWS S3 Storage Properties 
+##      I recommend creating a bucket naming scheme that matches the table prefix 
+##      name above.  QA, PRODUCTION, or developer's name to isolate this bucket in AWS
+##      ie:  aws.s3.bucketName=www.myapp.com
+#######################################################################################################
+aws.s3.bucketName=<YOUR-S3-BUCKET-NAME>

@@ -1,0 +1,61 @@
+package com.nfbsoftware.sans_server.user.lambda;
+
+import java.io.IOException;
+import java.util.LinkedHashMap;
+
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import com.amazonaws.services.lambda.runtime.Context;
+import com.nfbsoftware.sans_server.core.model.HandlerResponse;
+import com.nfbsoftware.sans_server.junit.TestContext;
+import com.nfbsoftware.sans_server.user.model.User;
+
+/**
+ * A simple test harness for locally invoking your Lambda function handler.
+ * 
+ * @author Brendan Clemenzi
+ */
+public class ViewUserTest
+{
+    private static LinkedHashMap<String, String> input;
+
+    @BeforeClass
+    public static void createInput() throws IOException
+    {
+        input = new LinkedHashMap<String, String>();
+        input.put("username", "brendan@clemenzi.com");
+    }
+
+    private Context createContext()
+    {
+        TestContext ctx = new TestContext();
+
+        ctx.setFunctionName("View User");
+
+        return ctx;
+    }
+
+    @Test
+    public void testViewUser()
+    {
+        ViewUser handler = new ViewUser();
+        Context ctx = createContext();
+
+        HandlerResponse output = (HandlerResponse)handler.handleRequest(input, ctx);
+
+        if(output.getStatus().equalsIgnoreCase("SUCCESS")) 
+        {
+            User userValue = (User)output.getData().get("user");
+            
+            System.out.println("Full Name: " + userValue.getFullName());
+            
+            System.out.println("ViewUser JUnit Test Passed");
+        }
+        else
+        {
+            Assert.fail("ViewUser JUnit Test Failed");
+        }
+    }
+}
