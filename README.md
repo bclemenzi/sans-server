@@ -97,7 +97,7 @@ public class ViewUser extends BaseLambdaHandler
 }
 ```
 
-The JUnit class for testing the CreateUser Lambda function looks as follows:
+The JUnit class for testing the ViewUser Lambda function looks as follows:
 
 ```java
 package com.nfbsoftware.sans_server.user.lambda;
