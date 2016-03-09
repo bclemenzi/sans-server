@@ -1,7 +1,7 @@
 sans-server
 ==============
 
-SansServer is a small web application implemented with a server-less architecture. It uses Amazon API Gateway to expose the Lambda function as HTTP endpoints and uses Identity and Access Management (IAM) and Amazon Cognito to retrieve temporary credentials for a user and authorize access to its APIs with.  Amazon DynamoDB is used for the application's persistent storage system.
+SansServer is a small web application implemented with a server-less architecture. It uses Amazon API Gateway to expose the Lambda functions as HTTP endpoints and uses Identity and Access Management (IAM) with Amazon Cognito to retrieve temporary credentials for a user and authorize access to its APIs with.  Amazon DynamoDB is used for the application's persistent storage system.
 
 The goal of this project was to create a prototype that would allow you to work towards providing a cost-efficient solution that is scalable and highly available.  Please keep in mind, this project has been written as an example and therefore should not be considered production ready.  It has; however, tried to follow a few best practices to give you a fairly clean development framework to build on top of.
 
