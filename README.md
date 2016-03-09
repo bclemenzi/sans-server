@@ -1,4 +1,4 @@
-sans-server
+SansServer
 ==============
 
 SansServer is a small web application implemented with a server-less architecture. It uses Amazon API Gateway to expose the Lambda functions as HTTP endpoints and uses Identity and Access Management (IAM) with Amazon Cognito to retrieve temporary credentials for a user and authorize access to its APIs with.  Amazon DynamoDB is used for the application's persistent storage system.
