@@ -1,8 +1,5 @@
 package com.nfbsoftware.sans_server.junit;
 
-import java.util.Map;
-
-import com.amazonaws.services.lambda.runtime.Client;
 import com.amazonaws.services.lambda.runtime.ClientContext;
 import com.amazonaws.services.lambda.runtime.CognitoIdentity;
 import com.amazonaws.services.lambda.runtime.Context;

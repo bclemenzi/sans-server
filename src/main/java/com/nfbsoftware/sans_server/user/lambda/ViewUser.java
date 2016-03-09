@@ -36,8 +36,7 @@ public class ViewUser extends BaseLambdaHandler
             UserDaoImpl userDao = new UserDaoImpl(accessKey, secretKey, region, dynamoDbTableNamePrefix);
             
             m_logger.log("Get user record by id: " + userId);
-            //User user = (User)userDao.scanUser(1, "USER_ID", userId).get(0);
-            User user = userDao.getUser(username);
+            User user = (User)userDao.scanUser(1, "USER_ID", userId).get(0);
             
             if(user != null)
             {

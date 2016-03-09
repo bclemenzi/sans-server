@@ -25,7 +25,7 @@ public class ViewUserTest
     public static void createInput() throws IOException
     {
         input = new LinkedHashMap<String, String>();
-        input.put("username", "brendan@clemenzi.com");
+        input.put("userId", "097f50a3-3481-4ab3-a7f2-b0ffcdece0e6");
     }
 
     private Context createContext()
