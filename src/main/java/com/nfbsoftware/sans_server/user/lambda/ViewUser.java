@@ -6,6 +6,7 @@ import com.nfbsoftware.sans_server.core.util.Entity;
 import com.nfbsoftware.sans_server.core.util.StringUtil;
 import com.nfbsoftware.sans_server.user.dao.UserDaoImpl;
 import com.nfbsoftware.sans_server.user.model.User;
+import com.nfbsoftware.sansserver.sdk.annotation.AwsLambda;
 
 /**
  * The ViewUser function simply returns the user record requested
@@ -20,6 +21,7 @@ public class ViewUser extends BaseLambdaHandler
      * @throws Exception
      */
     @Override
+    @AwsLambda(desc="View User Function", apiResourceName="View User", apiResourcePath="/viewUser", apiMethod="POST", apiSecurity="AWS_IAM", enableCORS=false)
     public HandlerResponse processRequest() throws Exception
     {
         HandlerResponse handlerResponse = new HandlerResponse();

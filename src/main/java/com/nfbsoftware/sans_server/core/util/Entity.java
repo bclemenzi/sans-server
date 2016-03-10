@@ -19,5 +19,6 @@ public class Entity
         public static final String AWS_COGNITO_IDENTITY_POOL_ID     = "aws.cognito.identityPoolId";
         public static final String AWS_CONGITO_PROVIDER_NAME        = "aws.cognito.providerName";
         public static final String AWS_DYNAMODB_TABLE_NAME_PREFIX   = "aws.dynamodb.tableNamePrefix";
+        public static final String AWS_S3_BUCKET_NAME               = "aws.s3.bucketName";
     }
 }

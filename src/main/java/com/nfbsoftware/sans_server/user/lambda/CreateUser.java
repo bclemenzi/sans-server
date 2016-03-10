@@ -7,6 +7,7 @@ import com.nfbsoftware.sans_server.core.util.SecureUUID;
 import com.nfbsoftware.sans_server.core.util.StringUtil;
 import com.nfbsoftware.sans_server.user.dao.UserDaoImpl;
 import com.nfbsoftware.sans_server.user.model.User;
+import com.nfbsoftware.sansserver.sdk.annotation.AwsLambda;
 
 /**
  * The CreateUser function is used to create a new user account in the system.  The account is created 
@@ -22,6 +23,7 @@ public class CreateUser extends BaseLambdaHandler
      * @throws Exception
      */
     @Override
+    @AwsLambda(desc="Create User Function", apiResourceName="Create User", apiResourcePath="/createUser", apiMethod="POST", apiSecurity="OPEN", enableCORS=false)
     public HandlerResponse processRequest() throws Exception
     {
         HandlerResponse handlerResponse = new HandlerResponse();

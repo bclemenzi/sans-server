@@ -1,0 +1,37 @@
+#######################################################################################################
+# AWS API Configuration
+#######################################################################################################
+aws.region=us-east-1
+aws.accessKey=AKIAxxxxxxxxxxxxxxxx
+aws.secretKey=X+hfxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+#######################################################################################################
+## AWS Cognito Properties
+#######################################################################################################
+aws.cognito.identityPoolId=us-east-1:62bxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+aws.cognito.providerName=xxxx.xxxxxxxx.xxxx
+
+#######################################################################################################
+## AWS DynamoDb Properties
+##      I strongly recommend using QA, PRODUCTION, or the developer's name to isolate 
+##      these tables in AWS * 
+##      ie.  aws.dynamodb.tableNamePrefix=BCLEMENZI
+#######################################################################################################
+aws.dynamodb.tableNamePrefix=XXXXXXXXXX
+
+#######################################################################################################
+## AWS S3 Storage Properties 
+##      I recommend creating a bucket naming scheme that matches the table prefix 
+##      name above.  QA, PRODUCTION, or developer's name to isolate this bucket in AWS
+##      ie.  aws.s3.bucketName=login.mywebsite.com
+#######################################################################################################
+aws.s3.bucketName=xxxxx.xxxxx.com
+aws.s3.deploymentFolder=deploy
+
+#######################################################################################################
+#######################################################################################################
+#######################################################################################################
+#######################################################################################################
+# Add your own application properties after this point
+#######################################################################################################
+myApp.emailAddress=email@example.com

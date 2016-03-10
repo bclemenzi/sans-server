@@ -10,6 +10,7 @@ import com.nfbsoftware.sans_server.core.util.StringUtil;
 import com.nfbsoftware.sans_server.user.dao.UserDaoImpl;
 import com.nfbsoftware.sans_server.user.model.AuthenticatedUser;
 import com.nfbsoftware.sans_server.user.model.User;
+import com.nfbsoftware.sansserver.sdk.annotation.AwsLambda;
 
 /**
  * The AuthenticateUser function is used to verify a user's username and password with that stored in the database.  If verified,
@@ -26,6 +27,7 @@ public class AuthenticateUser extends BaseLambdaHandler
      * @throws Exception
      */
     @Override
+    @AwsLambda(desc="Authenticate User Function", apiResourceName="Login", apiResourcePath="/login", apiMethod="POST", apiSecurity="OPEN", enableCORS=true)
     public HandlerResponse processRequest() throws Exception
     {
         HandlerResponse handlerResponse = new HandlerResponse();

@@ -12,6 +12,19 @@
         <artifactId>maven-shade-plugin</artifactId>
         <version>2.3</version>
       </plugin>
+      <plugin>
+        <groupId>com.nfbsoftware</groupId>
+        <artifactId>sans-server-plugin</artifactId>
+        <version>1.0.0</version>
+        <executions>
+          <execution>
+            <phase>install</phase>
+            <goals>
+              <goal>deploy-lambda-gateway</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
   <properties>
