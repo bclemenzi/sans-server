@@ -7,32 +7,48 @@
     	<meta name="description" content=""/>
     	<meta name="author" content=""/>
 		<title>NFB Software: Sans-Server Application Example</title>
+		<link href="static/css/style.css" rel="stylesheet" type="text/css"/>
 		<script src="static/js/jquery.js"></script>
 		<script src="static/js/aws-sdk.min.js"></script>
-		<script src="static/generated/sansserver-config.js"></script>
+		<!-- <script src="static/generated/sansserver-config.js"></script> -->
 	</head>
 	<body>
-		<h2>Sans-Server Application Example</h2>
-		<input type="button" id="loginButton" value="Login Now"/>
-		<br/>
-		<input type="button" id="viewUserButton" value="View User"/>
+  		<h1>SansServer SAP Web Application Example</h1>
+  		<div id="info">Login Page</div>
+  		<table>
+    		<tr>
+      			<td>Email</td>
+      			<td><input type="text" id="username" placeholder="user@example.com" size="20"/></td>
+    		</tr>
+    		<tr>
+      			<td>Password</td>
+      			<td><input type="password" id="password" placeholder="password" size="20"/></td>
+    		</tr>
+    		<tr>
+      			<td colspan="2" align="center">
+        			<input type="button" id="loginButton" value="Login Now"/>
+      			</td>
+    		</tr>
+    		<tr>
+      			<td colspan="2" align="center">
+        			<input type="button" id="viewUserButton" value="View User"/>
+      			</td>
+    		</tr>
+  		</table>
 	</body>
 	<script>
 		$(document).ready(function() 
 		{
-			AWS.config.region = 'us-east-1';
-			AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-				IdentityPoolId: 'us-east-1:62b6420c-927c-486e-b9fc-b7e9a363f353'
-			});
-			
 			indexPageObject = new function ()
 			{
 				var awsLambda;
 				
+				var region;
+				var identityPoolId;
 				var identityId;
 				var openIdToken;
 				
-				var baseServiceUrl = "https://uawr82yg7b.execute-api.us-east-1.amazonaws.com/development";
+				var baseServiceUrl = "https://xxxx.execute-api.us-east-1.amazonaws.com/development";
 				
 				this.initPage = function()
 				{
@@ -50,8 +66,8 @@
 				this.submitLoginForm = function()
 				{
 					var requestBody = {
-							username: "brendan@clemenzi.com",
-							passwordHash: "8743b52063cd84097a65d1633f5c74f5"
+							username: $("#username").val(),
+							password: $("#password").val()
 					};
 					
 					$.ajax(
@@ -67,11 +83,16 @@
 							
 							if(response.status == "SUCCESS")
 							{
+								indexPageObject.region = response.data.authenticatedUser.region;
+								indexPageObject.identityPoolId = response.data.authenticatedUser.identityPoolId;
 								indexPageObject.identityId = response.data.authenticatedUser.identityId;
 								indexPageObject.openIdToken = response.data.authenticatedUser.openIdToken;
 								
-								alert("Hellz Yeah 1: " + indexPageObject.identityId);
-								alert("Hellz Yeah 2: " + indexPageObject.openIdToken);
+								// Configure our AWS credentials
+								AWS.config.region = indexPageObject.region;
+								AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+									IdentityPoolId: indexPageObject.identityPoolId
+								});
 										
 								var creds = AWS.config.credentials;
 								creds.params.IdentityId = indexPageObject.identityId;
@@ -107,7 +128,7 @@
 				this.viewUser = function()
 				{
 					var requestBody = {
-							username: "brendan@clemenzi.com"
+							username: $("#username").val()
 					};
 					
 					AWS.config.credentials.get(function(err)
@@ -127,7 +148,6 @@
 					        	{
 					        		if (err)
 					        		{
-					        			alert("Som-Bitch");
 					        			console.log(err, err.stack);
 					        		}
 					        		else
@@ -145,11 +165,6 @@
 			}
 			
 			indexPageObject.initPage();
-			
-			// Do something
-			
-			
-
 		});
 	</script>
 </html>

@@ -5,6 +5,7 @@ import com.nfbsoftware.sansserver.sdk.annotation.AwsLambda;
 import com.nfbsoftware.sansserver.sdk.aws.AmazonCognitoManager;
 import com.nfbsoftware.sansserver.sdk.lambda.BaseLambdaHandler;
 import com.nfbsoftware.sansserver.sdk.lambda.model.HandlerResponse;
+import com.nfbsoftware.sansserver.sdk.util.Entity;
 import com.nfbsoftware.sansserver.sdk.util.SecureUUID;
 import com.nfbsoftware.sansserver.sdk.util.StringUtil;
 import com.nfbsoftware.sansserver.user.dao.UserDao;
@@ -36,6 +37,10 @@ public class AuthenticateUser extends BaseLambdaHandler
             // Get the parameters for the request
             String username = StringUtil.emptyIfNull(this.getParameter("username"));
             String clearPassword = StringUtil.emptyIfNull(this.getParameter("password"));
+            
+            // Get a few runtime properties to pass back to our authenticated user
+            String regionName = m_properties.getProperty(Entity.FrameworkProperties.AWS_REGION);
+            String identityPoolId = m_properties.getProperty(Entity.FrameworkProperties.AWS_COGNITO_IDENTITY_POOL_ID);
 
             // Initialize our user datasoure
             UserDao userDao = new UserDao(this.m_properties);
@@ -70,7 +75,9 @@ public class AuthenticateUser extends BaseLambdaHandler
                     AuthenticatedUser authenticatedUser = new AuthenticatedUser();
                     authenticatedUser.setUserId(user.getUserId());
                     authenticatedUser.setFullName(user.getFullName());
+                    authenticatedUser.setRegion(regionName);
                     authenticatedUser.setIdentityId(identityResult.getIdentityId());
+                    authenticatedUser.setIdentityPoolId(identityPoolId);
                     authenticatedUser.setOpenIdToken(user.getOpenIdToken());
                     
                     // Add the model to the response map

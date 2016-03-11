@@ -9,7 +9,9 @@ public class AuthenticatedUser
 {
     private String userId;
     private String fullName;
+    private String region;
     private String identityId;
+    private String identityPoolId;
     private String openIdToken;
     
     public String getUserId()
@@ -37,6 +39,24 @@ public class AuthenticatedUser
     public void setIdentityId(String identityId)
     {
         this.identityId = identityId;
+    }
+    
+    public String getRegion()
+    {
+        return region;
+    }
+    public void setRegion(String region)
+    {
+        this.region = region;
+    }
+    
+    public String getIdentityPoolId()
+    {
+        return identityPoolId;
+    }
+    public void setIdentityPoolId(String identityPoolId)
+    {
+        this.identityPoolId = identityPoolId;
     }
     
     public String getOpenIdToken()
