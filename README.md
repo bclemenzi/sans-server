@@ -12,7 +12,7 @@ Features
   * SAP Web application front-end with Unauthenticated and Authenticated pages
   * Project properties file used at runtime
   * Configuration schema to allow for the isolation of multiple deployments:  Multi-Engineer Development, QA, Production
-  * JUnit test harness for locally invoking your Lambda functions before deployment
+  * JUnit test harness for locally testing your Lambda functions before deployment
   
 Demo Site
 ---------------
@@ -24,7 +24,7 @@ Coming soon
 
 SansServer Framework
 ---------------
-This project contains a number of java classes that try to help simplify the authoring of lambda functions, including a base handler to configure your system and collect your request parameters.  The base handler also defines a simple response format to allow the client web-app to determine the status of any given transaction.  Below is an example of a basic Lambda function that utilizes this framework to view a user record within the system:
+This project contains a number of java classes that try to help simplify the authoring of lambda functions, including a base handler (BaseLambdaHandler) to configure your system and collect your request parameters.  The BaseLambdaHandler also defines a simple response format to allow the client-side webapp to determine the status of any given transaction.  Below is an example of a basic Lambda function that utilizes this framework to view a user record within the system:
 
 ```java
 package com.nfbsoftware.sansserver.user.lambda;
