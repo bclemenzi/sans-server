@@ -8,10 +8,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.amazonaws.services.lambda.runtime.Context;
-import com.nfbsoftware.sansserver.sdk.junit.TestContext;
-import com.nfbsoftware.sansserver.sdk.lambda.model.HandlerResponse;
 import com.nfbsoftware.sansserver.user.lambda.AuthenticateUser;
 import com.nfbsoftware.sansserver.user.model.AuthenticatedUser;
+import com.nfbsoftware.sansserverplugin.sdk.junit.TestContext;
+import com.nfbsoftware.sansserverplugin.sdk.lambda.model.HandlerResponse;
 
 /**
  * A simple test harness for locally invoking your Lambda function handler.

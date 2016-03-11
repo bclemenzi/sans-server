@@ -1,16 +1,16 @@
 package com.nfbsoftware.sansserver.user.lambda;
 
 import com.amazonaws.services.cognitoidentity.model.GetOpenIdTokenForDeveloperIdentityResult;
-import com.nfbsoftware.sansserver.sdk.annotation.AwsLambda;
-import com.nfbsoftware.sansserver.sdk.aws.AmazonCognitoManager;
-import com.nfbsoftware.sansserver.sdk.lambda.BaseLambdaHandler;
-import com.nfbsoftware.sansserver.sdk.lambda.model.HandlerResponse;
-import com.nfbsoftware.sansserver.sdk.util.Entity;
-import com.nfbsoftware.sansserver.sdk.util.SecureUUID;
-import com.nfbsoftware.sansserver.sdk.util.StringUtil;
 import com.nfbsoftware.sansserver.user.dao.UserDao;
 import com.nfbsoftware.sansserver.user.model.AuthenticatedUser;
 import com.nfbsoftware.sansserver.user.model.User;
+import com.nfbsoftware.sansserverplugin.sdk.annotation.AwsLambda;
+import com.nfbsoftware.sansserverplugin.sdk.aws.AmazonCognitoManager;
+import com.nfbsoftware.sansserverplugin.sdk.lambda.BaseLambdaHandler;
+import com.nfbsoftware.sansserverplugin.sdk.lambda.model.HandlerResponse;
+import com.nfbsoftware.sansserverplugin.sdk.util.Entity;
+import com.nfbsoftware.sansserverplugin.sdk.util.SecureUUID;
+import com.nfbsoftware.sansserverplugin.sdk.util.StringUtil;
 
 /**
  * The AuthenticateUser function is used to verify a user's username and password with that stored in the database.  If verified,

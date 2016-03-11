@@ -1,11 +1,11 @@
 package com.nfbsoftware.sansserver.user.lambda;
 
-import com.nfbsoftware.sansserver.sdk.annotation.AwsLambda;
-import com.nfbsoftware.sansserver.sdk.lambda.BaseLambdaHandler;
-import com.nfbsoftware.sansserver.sdk.lambda.model.HandlerResponse;
-import com.nfbsoftware.sansserver.sdk.util.StringUtil;
 import com.nfbsoftware.sansserver.user.dao.UserDao;
 import com.nfbsoftware.sansserver.user.model.User;
+import com.nfbsoftware.sansserverplugin.sdk.annotation.AwsLambda;
+import com.nfbsoftware.sansserverplugin.sdk.lambda.BaseLambdaHandler;
+import com.nfbsoftware.sansserverplugin.sdk.lambda.model.HandlerResponse;
+import com.nfbsoftware.sansserverplugin.sdk.util.StringUtil;
 
 /**
  * The ViewUser function simply returns the user record requested

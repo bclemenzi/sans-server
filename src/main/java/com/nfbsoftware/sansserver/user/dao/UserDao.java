@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import com.nfbsoftware.sansserver.sdk.dynamodb.AbstractDynamoDbDao;
 import com.nfbsoftware.sansserver.user.model.User;
+import com.nfbsoftware.sansserverplugin.sdk.dynamodb.AbstractDynamoDbDao;
 
 /**
  * The UserManager is an implementation class used to manage the CRUD operations for the User model objects in DynamoDB

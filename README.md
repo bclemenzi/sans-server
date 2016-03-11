@@ -29,10 +29,10 @@ This project contains a number of java classes that try to help simplify the aut
 ```java
 package com.nfbsoftware.sansserver.user.lambda;
 
-import com.nfbsoftware.sansserver.sdk.annotation.AwsLambda;
-import com.nfbsoftware.sansserver.sdk.lambda.BaseLambdaHandler;
-import com.nfbsoftware.sansserver.sdk.lambda.model.HandlerResponse;
-import com.nfbsoftware.sansserver.sdk.util.StringUtil;
+import com.nfbsoftware.sansserverplugin.sdk.annotation.AwsLambda;
+import com.nfbsoftware.sansserverplugin.sdk.lambda.BaseLambdaHandler;
+import com.nfbsoftware.sansserverplugin.sdk.lambda.model.HandlerResponse;
+import com.nfbsoftware.sansserverplugin.sdk.util.StringUtil;
 import com.nfbsoftware.sansserver.user.dao.UserDao;
 import com.nfbsoftware.sansserver.user.model.User;
 
@@ -107,8 +107,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.amazonaws.services.lambda.runtime.Context;
-import com.nfbsoftware.sansserver.sdk.junit.TestContext;
-import com.nfbsoftware.sansserver.sdk.lambda.model.HandlerResponse;
+import com.nfbsoftware.sansserverplugin.sdk.junit.TestContext;
+import com.nfbsoftware.sansserverplugin.sdk.lambda.model.HandlerResponse;
 import com.nfbsoftware.sansserver.user.lambda.ViewUser;
 import com.nfbsoftware.sansserver.user.model.User;
 
