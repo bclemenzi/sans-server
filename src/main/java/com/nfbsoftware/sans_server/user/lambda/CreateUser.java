@@ -1,13 +1,13 @@
 package com.nfbsoftware.sans_server.user.lambda;
 
-import com.nfbsoftware.sans_server.core.lambda.BaseLambdaHandler;
-import com.nfbsoftware.sans_server.core.model.HandlerResponse;
-import com.nfbsoftware.sans_server.core.util.Entity;
-import com.nfbsoftware.sans_server.core.util.SecureUUID;
-import com.nfbsoftware.sans_server.core.util.StringUtil;
 import com.nfbsoftware.sans_server.user.dao.UserDaoImpl;
 import com.nfbsoftware.sans_server.user.model.User;
 import com.nfbsoftware.sansserver.sdk.annotation.AwsLambda;
+import com.nfbsoftware.sansserver.sdk.lambda.BaseLambdaHandler;
+import com.nfbsoftware.sansserver.sdk.lambda.model.HandlerResponse;
+import com.nfbsoftware.sansserver.sdk.util.Entity;
+import com.nfbsoftware.sansserver.sdk.util.SecureUUID;
+import com.nfbsoftware.sansserver.sdk.util.StringUtil;
 
 /**
  * The CreateUser function is used to create a new user account in the system.  The account is created 
@@ -15,6 +15,7 @@ import com.nfbsoftware.sansserver.sdk.annotation.AwsLambda;
  * 
  * @author Brendan Clemenzi
  */
+@AwsLambda(name="Create User", desc="User self registration function", handlerMethod="handleRequest")
 public class CreateUser extends BaseLambdaHandler
 {
     /**
@@ -23,7 +24,6 @@ public class CreateUser extends BaseLambdaHandler
      * @throws Exception
      */
     @Override
-    @AwsLambda(desc="Create User Function", apiResourceName="Create User", apiResourcePath="/createUser", apiMethod="POST", apiSecurity="OPEN", enableCORS=false)
     public HandlerResponse processRequest() throws Exception
     {
         HandlerResponse handlerResponse = new HandlerResponse();

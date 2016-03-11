@@ -1,18 +1,19 @@
 package com.nfbsoftware.sans_server.user.lambda;
 
-import com.nfbsoftware.sans_server.core.lambda.BaseLambdaHandler;
-import com.nfbsoftware.sans_server.core.model.HandlerResponse;
-import com.nfbsoftware.sans_server.core.util.Entity;
-import com.nfbsoftware.sans_server.core.util.StringUtil;
 import com.nfbsoftware.sans_server.user.dao.UserDaoImpl;
 import com.nfbsoftware.sans_server.user.model.User;
 import com.nfbsoftware.sansserver.sdk.annotation.AwsLambda;
+import com.nfbsoftware.sansserver.sdk.lambda.BaseLambdaHandler;
+import com.nfbsoftware.sansserver.sdk.lambda.model.HandlerResponse;
+import com.nfbsoftware.sansserver.sdk.util.Entity;
+import com.nfbsoftware.sansserver.sdk.util.StringUtil;
 
 /**
  * The ViewUser function simply returns the user record requested
  * 
  * @author Brendan Clemenzi
  */
+@AwsLambda(name="View User", desc="Function to view a given user record", handlerMethod="handleRequest")
 public class ViewUser extends BaseLambdaHandler
 {
     /**
@@ -21,7 +22,6 @@ public class ViewUser extends BaseLambdaHandler
      * @throws Exception
      */
     @Override
-    @AwsLambda(desc="View User Function", apiResourceName="View User", apiResourcePath="/viewUser", apiMethod="POST", apiSecurity="AWS_IAM", enableCORS=false)
     public HandlerResponse processRequest() throws Exception
     {
         HandlerResponse handlerResponse = new HandlerResponse();

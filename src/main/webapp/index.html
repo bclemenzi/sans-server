@@ -7,8 +7,9 @@
     	<meta name="description" content=""/>
     	<meta name="author" content=""/>
 		<title>NFB Software: Sans-Server Application Example</title>
-		<script src="js/jquery.js"></script>
-		<script src="js/aws-sdk.min.js"></script>
+		<script src="static/js/jquery.js"></script>
+		<script src="static/js/aws-sdk.min.js"></script>
+		<script src="static/generated/sansserver-config.js"></script>
 	</head>
 	<body>
 		<h2>Sans-Server Application Example</h2>
@@ -23,14 +24,6 @@
 			AWS.config.credentials = new AWS.CognitoIdentityCredentials({
 				IdentityPoolId: 'us-east-1:62b6420c-927c-486e-b9fc-b7e9a363f353'
 			});
-			
-			/*
-			AWS.config.update({
-				accessKeyId:  "AKIAJMMZ72O6FIH3SCEQ",
-				secretAccessKey: "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",
-				region: "us-east-1"  
-			});
-			*/
 			
 			indexPageObject = new function ()
 			{
@@ -79,27 +72,6 @@
 								
 								alert("Hellz Yeah 1: " + indexPageObject.identityId);
 								alert("Hellz Yeah 2: " + indexPageObject.openIdToken);
-								
-								/*
-								var params = {
-										IdentityId: indexPageObject.identityId,
-								  		Logins: {
-								  			'cognito-identity.amazonaws.com': indexPageObject.openIdToken
-								  		}
-								};
-								
-								var cognitoidentity = new AWS.CognitoIdentity({region: 'us-east-1'});
-								cognitoidentity.getCredentialsForIdentity(params, function(err, data) {
-									if (err)
-									{
-										console.log(err, err.stack);
-									}
-									else
-									{
-										console.log(data); 
-									}
-								});
-								*/
 										
 								var creds = AWS.config.credentials;
 								creds.params.IdentityId = indexPageObject.identityId;

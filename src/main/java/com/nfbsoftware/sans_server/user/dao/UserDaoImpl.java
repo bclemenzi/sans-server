@@ -5,8 +5,8 @@ import java.util.List;
 
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
-import com.nfbsoftware.sans_server.core.dao.AbstractAmazonDaoImpl;
 import com.nfbsoftware.sans_server.user.model.User;
+import com.nfbsoftware.sansserver.sdk.aws.AbstractAmazonDaoImpl;
 
 /**
  * The UserManager is an implementation class used to manage the CRUD operations for the User model objects in DynamoDB

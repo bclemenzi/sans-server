@@ -29,7 +29,7 @@
                     <execution>
                         <phase>install</phase>
                         <goals>
-                        	<goal>deploy-lambda-gateway</goal>
+                        	<goal>deploy-lambda</goal>
                         </goals>
                     </execution>
                 </executions>

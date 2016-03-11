@@ -1,16 +1,16 @@
 package com.nfbsoftware.sans_server.user.lambda;
 
 import com.amazonaws.services.cognitoidentity.model.GetOpenIdTokenForDeveloperIdentityResult;
-import com.nfbsoftware.sans_server.core.dao.AmazonCognitoImpl;
-import com.nfbsoftware.sans_server.core.lambda.BaseLambdaHandler;
-import com.nfbsoftware.sans_server.core.model.HandlerResponse;
-import com.nfbsoftware.sans_server.core.util.Entity;
-import com.nfbsoftware.sans_server.core.util.SecureUUID;
-import com.nfbsoftware.sans_server.core.util.StringUtil;
 import com.nfbsoftware.sans_server.user.dao.UserDaoImpl;
 import com.nfbsoftware.sans_server.user.model.AuthenticatedUser;
 import com.nfbsoftware.sans_server.user.model.User;
 import com.nfbsoftware.sansserver.sdk.annotation.AwsLambda;
+import com.nfbsoftware.sansserver.sdk.aws.AmazonCognitoImpl;
+import com.nfbsoftware.sansserver.sdk.lambda.BaseLambdaHandler;
+import com.nfbsoftware.sansserver.sdk.lambda.model.HandlerResponse;
+import com.nfbsoftware.sansserver.sdk.util.Entity;
+import com.nfbsoftware.sansserver.sdk.util.SecureUUID;
+import com.nfbsoftware.sansserver.sdk.util.StringUtil;
 
 /**
  * The AuthenticateUser function is used to verify a user's username and password with that stored in the database.  If verified,
@@ -19,6 +19,7 @@ import com.nfbsoftware.sansserver.sdk.annotation.AwsLambda;
  * 
  * @author Brendan Clemenzi
  */
+@AwsLambda(name="Authenticate User", desc="Custom authentication service", handlerMethod="handleRequest")
 public class AuthenticateUser extends BaseLambdaHandler
 {
     /**
@@ -27,7 +28,6 @@ public class AuthenticateUser extends BaseLambdaHandler
      * @throws Exception
      */
     @Override
-    @AwsLambda(desc="Authenticate User Function", apiResourceName="Login", apiResourcePath="/login", apiMethod="POST", apiSecurity="OPEN", enableCORS=true)
     public HandlerResponse processRequest() throws Exception
     {
         HandlerResponse handlerResponse = new HandlerResponse();
