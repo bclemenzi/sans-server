@@ -10,7 +10,7 @@
 		<link href="static/css/style.css" rel="stylesheet" type="text/css"/>
 		<script src="static/js/jquery.js"></script>
 		<script src="static/js/aws-sdk.min.js"></script>
-		<!-- <script src="static/generated/sansserver-config.js"></script> -->
+		<script src="generated/sansserver-config.js"></script>
 	</head>
 	<body>
   		<h1>SansServer SAP Web Application Example</h1>
@@ -52,16 +52,19 @@
 	<script>
 		$(document).ready(function() 
 		{
+			AWS.config.region = sansServerConfig.region;
+			AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+				IdentityPoolId: sansServerConfig.identityPoolId
+			});
+			
 			indexPageObject = new function ()
 			{
 				var awsLambda;
 				
-				var region;
-				var identityPoolId;
 				var identityId;
 				var openIdToken;
 				
-				var baseServiceUrl = "https://xxxxx.execute-api.us-east-1.amazonaws.com/development";
+				var userId;
 				
 				this.initPage = function()
 				{
@@ -88,7 +91,7 @@
 					
 					$.ajax(
 					{
-						url: baseServiceUrl + "/authenticate",
+						url: sansServerConfig.baseServiceUrl + "/authenticate",
 						data: JSON.stringify(requestBody),
 						type: "POST",
 						cache:false,
@@ -99,17 +102,11 @@
 							
 							if(response.status == "SUCCESS")
 							{
-								indexPageObject.region = response.data.authenticatedUser.region;
-								indexPageObject.identityPoolId = response.data.authenticatedUser.identityPoolId;
+								indexPageObject.userId = response.data.authenticatedUser.userId;
 								indexPageObject.identityId = response.data.authenticatedUser.identityId;
 								indexPageObject.openIdToken = response.data.authenticatedUser.openIdToken;
 								
-								// Configure our AWS credentials
-								AWS.config.region = indexPageObject.region;
-								AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-									IdentityPoolId: indexPageObject.identityPoolId
-								});
-										
+								// Configure our AWS credentials	
 								var creds = AWS.config.credentials;
 								creds.params.IdentityId = indexPageObject.identityId;
 								creds.params.Logins = {
@@ -139,7 +136,7 @@
 				this.viewUser = function()
 				{
 					var requestBody = {
-							username: $("#username").val()
+							userId: indexPageObject.userId
 					};
 					
 					AWS.config.credentials.get(function(err)
@@ -152,7 +149,7 @@
 				    	{
 							indexPageObject.awsLambda.invoke(
 								{
-									FunctionName: 'BCLEMENZI_ViewUser',
+									FunctionName: sansServerConfig.environmentPrefix + 'ViewUser',
 					        		Payload: JSON.stringify(requestBody)
 					        	},
 					        	function(err, data)
