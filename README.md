@@ -27,20 +27,23 @@ SansServer Framework
 This project contains a number of java classes that try to help simplify the authoring of lambda functions, including a base handler to configure your system and collect your request parameters.  The base handler also defines a simple response format to allow the client web-app to determine the status of any given transaction.  Below is an example of a basic Lambda function that utilizes this framework to view a user record within the system:
 
 ```java
-package com.nfbsoftware.sans_server.user.lambda;
+package com.nfbsoftware.sansserver.user.lambda;
 
-import com.nfbsoftware.sans_server.core.lambda.BaseLambdaHandler;
-import com.nfbsoftware.sans_server.core.model.HandlerResponse;
-import com.nfbsoftware.sans_server.core.util.Entity;
-import com.nfbsoftware.sans_server.core.util.StringUtil;
-import com.nfbsoftware.sans_server.user.dao.UserDaoImpl;
-import com.nfbsoftware.sans_server.user.model.User;
+import com.nfbsoftware.sansserver.sdk.annotation.AwsLambda;
+import com.nfbsoftware.sansserver.sdk.lambda.BaseLambdaHandler;
+import com.nfbsoftware.sansserver.sdk.lambda.model.HandlerResponse;
+import com.nfbsoftware.sansserver.sdk.util.StringUtil;
+import com.nfbsoftware.sansserver.user.dao.UserDao;
+import com.nfbsoftware.sansserver.user.model.User;
 
 /**
- * The ViewUser function simply returns the user record requested
+ * The ViewUser function simply returns the user record requested.  The defined "handlerMethod" within the 
+ * class annotation is found in the BaseLambdaHandler that this class extends.  The BaseLambdaHandler class 
+ * provides a number of convenience systems to make authoring Java-base Lambda functions easier.
  * 
  * @author Brendan Clemenzi
  */
+@AwsLambda(name="ViewUser", desc="Function to view a given user record", handlerMethod="handleRequest")
 public class ViewUser extends BaseLambdaHandler
 {
     /**
@@ -58,14 +61,8 @@ public class ViewUser extends BaseLambdaHandler
         	//  Get our request parameter
             String username = StringUtil.emptyIfNull(this.getParameter("username"));
             
-            // Get out configuration properties
-            String region = this.getProperty(Entity.FrameworkProperties.AWS_REGION);
-            String accessKey = this.getProperty(Entity.FrameworkProperties.AWS_ACCESS_KEY);
-            String secretKey = this.getProperty(Entity.FrameworkProperties.AWS_SECRET_KEY);
-            String dynamoDbTableNamePrefix = this.getProperty(Entity.FrameworkProperties.AWS_DYNAMODB_TABLE_NAME_PREFIX);
-            
             // Init out User DAO for talking with DynamoDB
-            UserDaoImpl userDao = new UserDaoImpl(accessKey, secretKey, region, dynamoDbTableNamePrefix);
+            UserDao userDao = new UserDao(this.m_properties);
             
             m_logger.log("Get user record by username: " + username);
             User user = userDao.getUser(username);
@@ -100,7 +97,7 @@ public class ViewUser extends BaseLambdaHandler
 The JUnit class for testing the ViewUser Lambda function looks as follows:
 
 ```java
-package com.nfbsoftware.sans_server.user.lambda;
+package com.nfbsoftware.sansserver.user.lambda;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
@@ -110,9 +107,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.amazonaws.services.lambda.runtime.Context;
-import com.nfbsoftware.sans_server.core.model.HandlerResponse;
-import com.nfbsoftware.sans_server.junit.TestContext;
-import com.nfbsoftware.sans_server.user.model.User;
+import com.nfbsoftware.sansserver.sdk.junit.TestContext;
+import com.nfbsoftware.sansserver.sdk.lambda.model.HandlerResponse;
+import com.nfbsoftware.sansserver.user.lambda.ViewUser;
+import com.nfbsoftware.sansserver.user.model.User;
 
 /**
  * A simple test harness for locally invoking your Lambda function handler.

@@ -12,7 +12,7 @@ import com.nfbsoftware.sansserver.user.model.User;
  * 
  * @author Brendan Clemenzi
  */
-@AwsLambda(name="View User", desc="Function to view a given user record", handlerMethod="handleRequest")
+@AwsLambda(name="ViewUser", desc="Function to view a given user record", handlerMethod="handleRequest")
 public class ViewUser extends BaseLambdaHandler
 {
     /**
