@@ -14,7 +14,7 @@ import com.nfbsoftware.sansserver.user.model.User;
  * 
  * @author Brendan Clemenzi
  */
-@AwsLambda(name="CreateUser", desc="User self registration function", handlerMethod="handleRequest")
+@AwsLambda(name="CreateUser", desc="User self registration function", handlerMethod="handleRequest", memorySize="512", timeout="60")
 public class CreateUser extends BaseLambdaHandler
 {
     /**

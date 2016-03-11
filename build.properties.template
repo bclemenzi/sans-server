@@ -23,8 +23,6 @@ aws.cognito.providerName=xxxx.xxxxxxxx.xxxx
 ## AWS Lambda Properties
 ##############################################################################################################
 aws.lambda.roleArn=arn:aws:iam::000000000000:role/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-aws.lambda.memory=128
-aws.lambda.timeout=60
 
 ##############################################################################################################
 ## AWS S3 Storage Properties 

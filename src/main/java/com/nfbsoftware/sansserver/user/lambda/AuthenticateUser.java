@@ -19,7 +19,7 @@ import com.nfbsoftware.sansserver.user.model.User;
  * 
  * @author Brendan Clemenzi
  */
-@AwsLambda(name="AuthenticateUser", desc="Custom authentication service", handlerMethod="handleRequest")
+@AwsLambda(name="AuthenticateUser", desc="Custom authentication service", handlerMethod="handleRequest", memorySize="512", timeout="60")
 public class AuthenticateUser extends BaseLambdaHandler
 {
     /**
