@@ -1,24 +1,23 @@
-package com.nfbsoftware.sans_server.user.dao;
+package com.nfbsoftware.sansserver.user.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
-import com.amazonaws.regions.Region;
-import com.amazonaws.regions.Regions;
-import com.nfbsoftware.sans_server.user.model.User;
-import com.nfbsoftware.sansserver.sdk.aws.AbstractAmazonDaoImpl;
+import com.nfbsoftware.sansserver.sdk.dynamodb.AbstractDynamoDbDao;
+import com.nfbsoftware.sansserver.user.model.User;
 
 /**
  * The UserManager is an implementation class used to manage the CRUD operations for the User model objects in DynamoDB
  * 
  * @author Brendan Clemenzi
  */
-public class UserDaoImpl extends AbstractAmazonDaoImpl
+public class UserDao extends AbstractDynamoDbDao
 {
-    public UserDaoImpl(String accessKey, String secretKey, String regionName, String tableNamePrefix) throws Exception
+    public UserDao(Properties properties) throws Exception
     {
         // Init our DOA with our keys, region, table prefix, table name, and primary key column
-        super(accessKey, secretKey, Region.getRegion(Regions.fromName(regionName)), tableNamePrefix, "USERS", "USERNAME");
+        super(properties, "USERS", "USERNAME");
     }
 
     public User getUser(String username)

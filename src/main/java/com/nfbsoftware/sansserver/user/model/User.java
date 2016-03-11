@@ -1,4 +1,4 @@
-package com.nfbsoftware.sans_server.user.model;
+package com.nfbsoftware.sansserver.user.model;
 
 import java.io.Serializable;
 

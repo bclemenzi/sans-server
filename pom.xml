@@ -15,25 +15,113 @@
 	</properties>
 	
 	<build> 
+        <!-- This goo is to stop eclipse from issuing 'plugin execution not covered by lifecycle' warning
+        pulled from: http://wiki.eclipse.org/M2E_plugin_execution_not_covered
+        -->
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+                	<artifactId>lifecycle-mapping</artifactId>
+                	<version>1.0.0</version>              
+                	<configuration>
+                  		<lifecycleMappingMetadata>
+                     		<pluginExecutions>
+                     			<pluginExecution>                     
+                         			<pluginExecutionFilter>
+                           				<groupId>com.nfbsoftware</groupId>
+                           				<artifactId>sans-server-plugin</artifactId>
+                           				<versionRange>[1.0,)</versionRange>                
+                         				<goals>
+                         	  				<goal>build-properties</goal>
+                         	  				<goal>deploy-lambda</goal>
+                           				</goals>
+                         			</pluginExecutionFilter>
+                         			<action>
+                           				<ignore />
+                         			</action>
+                       			</pluginExecution>
+					   			<pluginExecution>
+                         			<pluginExecutionFilter>
+                           				<groupId>org.apache.maven.plugins</groupId>
+						   				<artifactId>maven-resources-plugin</artifactId>
+                           				<versionRange>[1.0,)</versionRange>
+                           				<goals>
+                              				<goal>resources</goal>
+                              				<goal>testResources</goal>
+                           				</goals>
+                         			</pluginExecutionFilter>
+                         			<action>
+                           				<ignore />
+                         			</action>
+                       			</pluginExecution>
+                       			<pluginExecution>
+                         			<pluginExecutionFilter>
+                           				<groupId>org.codehaus.mojo</groupId>
+						   				<artifactId>aspectj-maven-plugin</artifactId>
+                           				<versionRange>[1.0.1,)</versionRange>
+                           				<goals>
+                              				<goal>test-compile</goal>
+                              				<goal>compile</goal>
+                           				</goals>
+                         			</pluginExecutionFilter>
+                         			<action>
+                           				<ignore />
+                         			</action>
+                       			</pluginExecution>                       
+                     		</pluginExecutions>
+                  		</lifecycleMappingMetadata>                
+                	</configuration>
+            	</plugin>
+          	</plugins>
+      	</pluginManagement>
+      	<!-- end of config madness -->  
 		<plugins>
+			<plugin>
+                <groupId>com.nfbsoftware</groupId>
+				<artifactId>sans-server-plugin</artifactId>
+				<version>1.0.0</version>
+            	<executions>
+                	<execution>
+                		<id>first-execution</id>
+                    	<goals>
+                        	<goal>build-properties</goal>
+                    	</goals>
+                    	<phase>generate-resources</phase>
+                	</execution>
+                	<execution>
+                		<id>second-execution</id>
+                    	<goals>
+                        	<goal>deploy-lambda</goal>
+                    	</goals>
+                    	<phase>install</phase>
+                	</execution>
+            	</executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.0.2</version>
+                <configuration>
+                    <source>1.6</source>
+                    <target>1.6</target>
+                </configuration>
+            </plugin>
+	        <plugin>
+	            <groupId>org.apache.maven.plugins</groupId>
+	            <artifactId>maven-surefire-plugin</artifactId>
+	            <version>2.5</version>
+	            <configuration>
+	                <includes>
+	                    <include>**/*Test.java</include>
+	                </includes>
+	            </configuration>
+	        </plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
 				<version>2.3</version>
 			</plugin>
-			<plugin>
-                <groupId>com.nfbsoftware</groupId>
-				<artifactId>sans-server-plugin</artifactId>
-				<version>1.0.0</version>
-                <executions>
-                    <execution>
-                        <phase>install</phase>
-                        <goals>
-                        	<goal>deploy-lambda</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
 		</plugins>
 	</build>
 
@@ -46,7 +134,7 @@
 		<dependency>
 			<groupId>com.amazonaws</groupId>
 			<artifactId>aws-java-sdk</artifactId>
-			<version>1.10.52</version>
+			<version>1.10.59</version>
 		</dependency>
 		<dependency>
 			<groupId>com.amazonaws</groupId>

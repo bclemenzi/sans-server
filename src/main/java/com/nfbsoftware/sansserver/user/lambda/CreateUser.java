@@ -1,13 +1,12 @@
-package com.nfbsoftware.sans_server.user.lambda;
+package com.nfbsoftware.sansserver.user.lambda;
 
-import com.nfbsoftware.sans_server.user.dao.UserDaoImpl;
-import com.nfbsoftware.sans_server.user.model.User;
 import com.nfbsoftware.sansserver.sdk.annotation.AwsLambda;
 import com.nfbsoftware.sansserver.sdk.lambda.BaseLambdaHandler;
 import com.nfbsoftware.sansserver.sdk.lambda.model.HandlerResponse;
-import com.nfbsoftware.sansserver.sdk.util.Entity;
 import com.nfbsoftware.sansserver.sdk.util.SecureUUID;
 import com.nfbsoftware.sansserver.sdk.util.StringUtil;
+import com.nfbsoftware.sansserver.user.dao.UserDao;
+import com.nfbsoftware.sansserver.user.model.User;
 
 /**
  * The CreateUser function is used to create a new user account in the system.  The account is created 
@@ -35,14 +34,8 @@ public class CreateUser extends BaseLambdaHandler
             String clearPassword = StringUtil.emptyIfNull(this.getParameter("password"));
             String fullName = StringUtil.emptyIfNull(this.getParameter("fullName"));
             
-            // Get our property values from our base handler.
-            String region = this.getProperty(Entity.FrameworkProperties.AWS_REGION);
-            String accessKey = this.getProperty(Entity.FrameworkProperties.AWS_ACCESS_KEY);
-            String secretKey = this.getProperty(Entity.FrameworkProperties.AWS_SECRET_KEY);
-            String dynamoDbTableNamePrefix = this.getProperty(Entity.FrameworkProperties.AWS_DYNAMODB_TABLE_NAME_PREFIX);
-            
             // Initialize our user datasoure
-            UserDaoImpl userDao = new UserDaoImpl(accessKey, secretKey, region, dynamoDbTableNamePrefix);
+            UserDao userDao = new UserDao(this.m_properties);
             
             // Create our User model
             User userModel = new User();

@@ -1,12 +1,11 @@
-package com.nfbsoftware.sans_server.user.lambda;
+package com.nfbsoftware.sansserver.user.lambda;
 
-import com.nfbsoftware.sans_server.user.dao.UserDaoImpl;
-import com.nfbsoftware.sans_server.user.model.User;
 import com.nfbsoftware.sansserver.sdk.annotation.AwsLambda;
 import com.nfbsoftware.sansserver.sdk.lambda.BaseLambdaHandler;
 import com.nfbsoftware.sansserver.sdk.lambda.model.HandlerResponse;
-import com.nfbsoftware.sansserver.sdk.util.Entity;
 import com.nfbsoftware.sansserver.sdk.util.StringUtil;
+import com.nfbsoftware.sansserver.user.dao.UserDao;
+import com.nfbsoftware.sansserver.user.model.User;
 
 /**
  * The ViewUser function simply returns the user record requested
@@ -30,12 +29,7 @@ public class ViewUser extends BaseLambdaHandler
         {
             String userId = StringUtil.emptyIfNull(this.getParameter("userId"));
             
-            String region = this.getProperty(Entity.FrameworkProperties.AWS_REGION);
-            String accessKey = this.getProperty(Entity.FrameworkProperties.AWS_ACCESS_KEY);
-            String secretKey = this.getProperty(Entity.FrameworkProperties.AWS_SECRET_KEY);
-            String dynamoDbTableNamePrefix = this.getProperty(Entity.FrameworkProperties.AWS_DYNAMODB_TABLE_NAME_PREFIX);
-            
-            UserDaoImpl userDao = new UserDaoImpl(accessKey, secretKey, region, dynamoDbTableNamePrefix);
+            UserDao userDao = new UserDao(this.m_properties);
             
             m_logger.log("Get user record by id: " + userId);
             User user = (User)userDao.scanUser(1, "USER_ID", userId).get(0);

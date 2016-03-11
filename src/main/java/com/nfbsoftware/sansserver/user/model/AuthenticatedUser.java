@@ -1,4 +1,4 @@
-package com.nfbsoftware.sans_server.user.model;
+package com.nfbsoftware.sansserver.user.model;
 
 /**
  * The AuthenticateUserResponse object is returned to the end user for use on the client.  Items like password are not included for security.

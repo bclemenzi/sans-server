@@ -1,16 +1,15 @@
-package com.nfbsoftware.sans_server.user.lambda;
+package com.nfbsoftware.sansserver.user.lambda;
 
 import com.amazonaws.services.cognitoidentity.model.GetOpenIdTokenForDeveloperIdentityResult;
-import com.nfbsoftware.sans_server.user.dao.UserDaoImpl;
-import com.nfbsoftware.sans_server.user.model.AuthenticatedUser;
-import com.nfbsoftware.sans_server.user.model.User;
 import com.nfbsoftware.sansserver.sdk.annotation.AwsLambda;
-import com.nfbsoftware.sansserver.sdk.aws.AmazonCognitoImpl;
+import com.nfbsoftware.sansserver.sdk.aws.AmazonCognitoManager;
 import com.nfbsoftware.sansserver.sdk.lambda.BaseLambdaHandler;
 import com.nfbsoftware.sansserver.sdk.lambda.model.HandlerResponse;
-import com.nfbsoftware.sansserver.sdk.util.Entity;
 import com.nfbsoftware.sansserver.sdk.util.SecureUUID;
 import com.nfbsoftware.sansserver.sdk.util.StringUtil;
+import com.nfbsoftware.sansserver.user.dao.UserDao;
+import com.nfbsoftware.sansserver.user.model.AuthenticatedUser;
+import com.nfbsoftware.sansserver.user.model.User;
 
 /**
  * The AuthenticateUser function is used to verify a user's username and password with that stored in the database.  If verified,
@@ -19,7 +18,7 @@ import com.nfbsoftware.sansserver.sdk.util.StringUtil;
  * 
  * @author Brendan Clemenzi
  */
-@AwsLambda(name="Authenticate User", desc="Custom authentication service", handlerMethod="handleRequest")
+@AwsLambda(name="AuthenticateUser", desc="Custom authentication service", handlerMethod="handleRequest")
 public class AuthenticateUser extends BaseLambdaHandler
 {
     /**
@@ -37,17 +36,9 @@ public class AuthenticateUser extends BaseLambdaHandler
             // Get the parameters for the request
             String username = StringUtil.emptyIfNull(this.getParameter("username"));
             String clearPassword = StringUtil.emptyIfNull(this.getParameter("password"));
-            
-            // Get our property values from our base handler.
-            String region = this.getProperty(Entity.FrameworkProperties.AWS_REGION);
-            String accessKey = this.getProperty(Entity.FrameworkProperties.AWS_ACCESS_KEY);
-            String secretKey = this.getProperty(Entity.FrameworkProperties.AWS_SECRET_KEY);
-            String cognitoIdentityPoolId = this.getProperty(Entity.FrameworkProperties.AWS_COGNITO_IDENTITY_POOL_ID);
-            String cognitoProviderName = this.getProperty(Entity.FrameworkProperties.AWS_CONGITO_PROVIDER_NAME);
-            String dynamoDbTableNamePrefix = this.getProperty(Entity.FrameworkProperties.AWS_DYNAMODB_TABLE_NAME_PREFIX);
-            
+
             // Initialize our user datasoure
-            UserDaoImpl userDao = new UserDaoImpl(accessKey, secretKey, region, dynamoDbTableNamePrefix);
+            UserDao userDao = new UserDao(this.m_properties);
             
             m_logger.log("Get user record: " + username);
             User user = userDao.getUser(username);
@@ -64,7 +55,7 @@ public class AuthenticateUser extends BaseLambdaHandler
                 {
                     m_logger.log("Credentials validated for: " + username);
                     
-                    AmazonCognitoImpl amazonCognitoManager = new AmazonCognitoImpl(accessKey, secretKey, cognitoIdentityPoolId, cognitoProviderName);
+                    AmazonCognitoManager amazonCognitoManager = new AmazonCognitoManager(this.m_properties);
                     
                     m_logger.log("Get OpenId Token for: " + username);
                     GetOpenIdTokenForDeveloperIdentityResult identityResult = amazonCognitoManager.getDeveloperIdentityResult(user.getUserId());
