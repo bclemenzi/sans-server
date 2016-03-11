@@ -17,6 +17,11 @@
   		<div id="info">Login Page</div>
   		<div id="loginForm">
 	  		<table>
+	  			<tr id="errorPanel" style="display: none;">
+	      			<td colspan="2" align="center">
+	        			<div id="errorMessage"></div>
+	      			</td>
+	    		</tr>
 	    		<tr>
 	      			<td>Email</td>
 	      			<td><input type="text" id="username" placeholder="user@example.com" size="20"/></td>
@@ -123,7 +128,11 @@
 							}
 							else
 							{
-								alert("Error: " + response.statusMessage);
+								$("#errorMessage").text(response.statusMessage);
+								$("#errorPanel").show();
+								
+								$("#progressPanel").hide();
+								$("#loginForm").show();
 							}
 		                },
 		                error: function (data) 
