@@ -16,7 +16,7 @@ Features
   
 Demo Site
 ---------------
-http://sansserver.nfbsotware.com - Coming soon
+http://sansserver.nfbsotware.com :: COMING SOON
 
 Getting started
 ---------------
