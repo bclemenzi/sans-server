@@ -20,7 +20,14 @@ http://sansserver.nfbsotware.com :: COMING SOON
 
 Getting started
 ---------------
-Coming soon
+The SansServer application bases itself off the source code layout defined by the sans-server-plugin (https://github.com/bclemenzi/sans-server-plugin).  The plugin provides a number of wrapper classes and utilities that were developed to make working with Amazon Web Services easier.
+
+The SansServer application uses the sans-server-plugin to build, test, provision, and deploy the webapp to AWS.  The following are recommended Maven goals to use during your development:
+
+ * mvn clean package
+  * Clean and package should be used to build our source code and execute our JUnit test cases.
+ * mvn clean package shade:shade install
+  * Adding shade:shade will package (JAR) our Java class files for Lambda deployment within Amazon Web Services.  The install goal performs the AWS configurations and deploys our code for use in the cloud.  Please see the sans-server-plugin project (https://github.com/bclemenzi/sans-server-plugin) to learn more about the available features found inside the plugin.
 
 SansServer Framework
 ---------------
