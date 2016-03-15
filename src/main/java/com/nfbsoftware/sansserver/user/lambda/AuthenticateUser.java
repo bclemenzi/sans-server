@@ -4,7 +4,7 @@ import com.amazonaws.services.cognitoidentity.model.GetOpenIdTokenForDeveloperId
 import com.nfbsoftware.sansserver.user.dao.UserDao;
 import com.nfbsoftware.sansserver.user.model.AuthenticatedUser;
 import com.nfbsoftware.sansserver.user.model.User;
-import com.nfbsoftware.sansserverplugin.sdk.annotation.AwsLambda;
+import com.nfbsoftware.sansserverplugin.sdk.annotation.AwsLambdaWithGateway;
 import com.nfbsoftware.sansserverplugin.sdk.aws.AmazonCognitoManager;
 import com.nfbsoftware.sansserverplugin.sdk.lambda.BaseLambdaHandler;
 import com.nfbsoftware.sansserverplugin.sdk.lambda.model.HandlerResponse;
@@ -19,7 +19,7 @@ import com.nfbsoftware.sansserverplugin.sdk.util.StringUtil;
  * 
  * @author Brendan Clemenzi
  */
-@AwsLambda(name="AuthenticateUser", desc="Custom authentication service", handlerMethod="handleRequest", memorySize="512", timeout="60")
+@AwsLambdaWithGateway(name="AuthenticateUser", desc="SansServer authentication service", handlerMethod="handleRequest", memorySize="512", timeout="60", resourceName="authenticate", method=AwsLambdaWithGateway.MethodTypes.POST, authorization=AwsLambdaWithGateway.AuthorizationTypes.NONE, keyRequired=false, enableCORS=true)
 public class AuthenticateUser extends BaseLambdaHandler
 {
     /**
