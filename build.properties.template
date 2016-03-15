@@ -37,7 +37,6 @@ aws.lambda.roleArn=arn:aws:iam::000000000000:role/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ##############################################################################################################
 aws.s3.bucketName=xxxxxxxxxx
 aws.s3.deploymentFolder=deploy
-aws.s3.staticResourcesFolder=static
 
 ##############################################################################################################
 ## AWS SES Properties
