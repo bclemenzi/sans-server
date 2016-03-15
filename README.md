@@ -5,6 +5,8 @@ SansServer is a small web application implemented with a server-less architectur
 
 The goal of this project was to create a prototype that would allow you to work towards providing a cost-efficient solution that is scalable and highly available.  Please keep in mind, this project has been written as an example and therefore should not be considered production ready.  It has; however, tried to follow a few best practices to give you a fairly clean development framework to build on top of.
 
+[![Join the chat at https://gitter.im/bclemenzi/sans-server](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/bclemenzi/sans-server?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Features
 --------
 
