@@ -13,6 +13,7 @@ Features
   * Project properties file used at runtime
   * Configuration schema to allow for the isolation of multiple deployments:  Multi-Engineer Development, QA, Production
   * JUnit test harness for locally testing your Lambda functions before deployment
+  * Uses SansServer-Plugin (https://github.com/bclemenzi/sans-server-plugin) to build and deploy application to Amazon Web Services
   
 Demo Site
 ---------------
