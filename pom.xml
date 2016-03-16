@@ -81,7 +81,7 @@
 			<plugin>
                 <groupId>com.nfbsoftware</groupId>
 				<artifactId>sans-server-plugin</artifactId>
-				<version>1.0.3</version>
+				<version>1.0.4</version>
             	<executions>
                 	<execution>
                 		<id>first-execution</id>
@@ -162,7 +162,7 @@
 		<dependency>
 			<groupId>com.nfbsoftware</groupId>
 			<artifactId>sans-server-plugin</artifactId>
-			<version>1.0.3</version>
+			<version>1.0.4</version>
 		</dependency>
 	</dependencies>
 	
