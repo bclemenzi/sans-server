@@ -4,7 +4,7 @@
 
   <groupId>com.nfbsoftware</groupId>
   <artifactId>sans-server</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0.0</version>
   <packaging>jar</packaging>
 
   <name>sans-server</name>
@@ -81,7 +81,7 @@
 			<plugin>
                 <groupId>com.nfbsoftware</groupId>
 				<artifactId>sans-server-plugin</artifactId>
-				<version>1.0.4</version>
+				<version>1.0.5</version>
             	<executions>
                 	<execution>
                 		<id>first-execution</id>
@@ -162,7 +162,7 @@
 		<dependency>
 			<groupId>com.nfbsoftware</groupId>
 			<artifactId>sans-server-plugin</artifactId>
-			<version>1.0.4</version>
+			<version>1.0.5</version>
 		</dependency>
 	</dependencies>
 	
