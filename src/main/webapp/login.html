@@ -1,0 +1,166 @@
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<meta name="pinterest" content="nopin"/>
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+    	<meta name="description" content=""/>
+    	<meta name="author" content=""/>
+    	<link href="https://fonts.googleapis.com/css?family=Oleo+Script" rel="stylesheet" type="text/css" />
+		<link href="static/css/login.css" rel="stylesheet" type="text/css"/>
+		<script src="static/js/jquery.js"></script>
+		<script src="static/js/aws-sdk.min.js"></script>
+		<script src="static/js/jquery.cookie.js"></script>
+		<script src="static/js/sansserver-jquery-expand.js"></script>
+		<script src="static/js/sanserver-utility.js"></script>
+		<script src="generated/global-app-config.js"></script>
+		<title>SansServer - Login</title>
+	</head>
+	<body>
+		<div id="wrapper">
+			<div id="content" class="padded">
+				<div id="loginLogo">SansServer<br/><span id="loginLogoSubHead">Sample Web Application</span></div>
+				<div id="loginElements">
+					<div id="loginForm" class="fm-v clearfix">
+						<div id="errorMessage" class="errors" style="display: none;"></div>
+						<p class="field">
+							<span class="loginLabel">Email Address</span>
+							<br/>
+							<input id="username" name="username" class="required" tabindex="1" type="text" value="" placeholder="example@domain.com" size="30"/>
+						</p>
+						<p class="field">
+							<span class="loginLabel">Password</span>
+							<br/>
+							<input id="password" name="password" class="required" tabindex="2" type="password" value="" size="30"/>
+						</p>
+						<p class="field">
+							<input id="loginSubmitButton" class="btn-submit" name="submit" value="LOGIN" tabindex="4" type="submit" />
+							&nbsp;&nbsp;
+							<input id="loginClearButton" class="btn-submit" name="reset" value="CLEAR" tabindex="5" type="reset" />
+						</p>
+						<br/>
+						<div id="selfRegistrationMessage">Need to sign up?</div>
+					</div>
+					<div id="processingDiv" class="fm-v clearfix" style="display: none;">
+						<div id="processingStatus">Please Wait...</div>
+						<br/>
+						<div id="processingStatusMessage">Hum something while other sit and stare</div>
+					</div>
+				</div>
+			</div>
+			<div id="copyright">
+				<p>Copyright (c) 2016 SansServer, an NFB Software property. All rights reserved.</p>
+            </div>
+		</div>
+	</body>
+	<script>
+		$(document).ready(function() 
+		{
+			AWS.config.region = globalAppConfig.region;
+			AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+				IdentityPoolId: globalAppConfig.identityPoolId
+			});
+			
+			loginPageObject = new function()
+			{
+				this.initPage = function()
+				{
+					$("#loginSubmitButton").click(function(){
+						loginPageObject.submitLoginForm();
+					});
+					
+					$("#loginClearButton").click(function(){
+						$("#username").val("");
+						$("#password").val("");
+						
+						Cookies.set("userId", "NONE", { expires: 1 });
+						Cookies.set("identityId", "NONE", { expires: 1 });
+						Cookies.set("openIdToken", "NONE", { expires: 1 });
+					});
+				}
+				
+				this.submitLoginForm = function()
+				{
+					$("#loginSubmitButton").kDisable();
+					$("#loginClearButton").kDisable();
+					
+				 	$("#loginForm").hide();
+				 	$("#processingDiv").show();
+				 	
+					var requestBody = {
+							username: $("#username").val(),
+							password: $("#password").val()
+					};
+					
+					$.ajax(
+					{
+						url: globalAppConfig.baseServiceUrl + "/authenticate",
+						data: JSON.stringify(requestBody),
+						type: "POST",
+						cache:false,
+						dataType: "json",
+						success: function (response) 
+						{
+							console.log(response);
+							
+							if(response.status == "SUCCESS")
+							{
+								// Configure our AWS credentials	
+								var creds = AWS.config.credentials;
+								creds.params.IdentityId = response.data.authenticatedUser.identityId;
+								creds.params.Logins = {
+									'cognito-identity.amazonaws.com': response.data.authenticatedUser.openIdToken
+								};
+								creds.expired = true;
+								
+								AWS.config.credentials.get(function(err)
+								{
+									if(err)
+									{
+										console.log(err, err.stack);
+										
+										loginPageObject.displayErrorMessage("Email or password are incorrect");
+									}
+									else
+									{
+										// We have a valid login, so save the session info in a cookie that expires tomorrow
+										Cookies.set("userId", response.data.authenticatedUser.userId, { expires: 1 });
+										Cookies.set("identityId", response.data.authenticatedUser.identityId, { expires: 1 });
+										Cookies.set("openIdToken", response.data.authenticatedUser.openIdToken, { expires: 1 });
+										
+										// Redirect the user to the index page.
+										window.location.href = "index.html";
+									}
+						    	});
+							}
+							else
+							{
+								loginPageObject.displayErrorMessage(response.statusMessage);
+							}
+		                },
+		                error: function (data) 
+		                {
+		                	console.log(data);
+		                	
+		                	loginPageObject.displayErrorMessage("Unable to communicate with server");
+		                }
+					});
+				}
+				
+				this.displayErrorMessage = function(errorMessage)
+				{
+					$("#loginForm").show();
+				 	$("#processingDiv").hide();
+				 	
+				 	$("#loginSubmitButton").kEnable();
+					$("#loginClearButton").kEnable();
+					
+					$("#errorMessage").text(errorMessage);
+					$("#errorMessage").show();
+				}
+			}
+			
+			loginPageObject.initPage();
+		});
+	</script>
+</html>

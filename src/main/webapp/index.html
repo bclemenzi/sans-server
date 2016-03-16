@@ -6,182 +6,77 @@
     	<meta name="viewport" content="width=device-width, initial-scale=1"/>
     	<meta name="description" content=""/>
     	<meta name="author" content=""/>
-		<title>NFB Software: Sans-Server Application Example</title>
+		<title>NFB Software: SansServer Application Example</title>
 		<link href="static/css/style.css" rel="stylesheet" type="text/css"/>
 		<script src="static/js/jquery.js"></script>
 		<script src="static/js/aws-sdk.min.js"></script>
-		<script src="generated/sans-server-config.js"></script>
+		<script src="static/js/jquery.cookie.js"></script>
+		<script src="static/js/sansserver-jquery-expand.js"></script>
+		<script src="static/js/sanserver-utility.js"></script>
+		<script src="generated/global-app-config.js"></script>
 	</head>
 	<body>
-  		<h1>SansServer SAP Web Application Example</h1>
-  		<div id="info">Login Page</div>
-  		<div id="loginForm">
-	  		<table>
-	  			<tr id="errorPanel" style="display: none;">
-	      			<td colspan="2" align="center">
-	        			<div id="errorMessage"></div>
-	      			</td>
-	    		</tr>
-	    		<tr>
-	      			<td>Email</td>
-	      			<td><input type="text" id="username" placeholder="user@example.com" size="20"/></td>
-	    		</tr>
-	    		<tr>
-	      			<td>Password</td>
-	      			<td><input type="password" id="password" placeholder="password" size="20"/></td>
-	    		</tr>
-	    		<tr>
-	      			<td colspan="2" align="center">
-	        			<input type="button" id="loginButton" value="Login Now"/>
-	      			</td>
-	    		</tr>
-	  		</table>
-  		</div>
-		<div id="progressPanel" style="display: none;">
-	  		<table>
-	    		<tr>
-	      			<td align="center">Please wait...</td>
-	    		</tr>
-	  		</table>
-  		</div>
-  		<div id="viewUserForm" style="display: none;">
-	  		<table>
-	    		<tr>
-	      			<td colspan="2" align="center">
-	        			<input type="button" id="viewUserButton" value="View User"/>
-	      			</td>
-	    		</tr>
-	  		</table>
+		<div id="ApplicationContainer" style="display: none;">
+  			<h1>SansServer SAP Web Application Example</h1>
+  			<div id="info">Hellz Yeah</div>
   		</div>
 	</body>
 	<script>
 		$(document).ready(function() 
 		{
-			AWS.config.region = sansServerConfig.region;
+			AWS.config.region = globalAppConfig.region;
 			AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-				IdentityPoolId: sansServerConfig.identityPoolId
+				IdentityPoolId: globalAppConfig.identityPoolId
 			});
 			
 			indexPageObject = new function ()
 			{
-				var awsLambda;
-				
+				var userId;
 				var identityId;
 				var openIdToken;
-				
-				var userId;
+
+				this.checkLoginSession = function()
+				{
+					// Load our cookies to test our authentication.  Default the values to "NONE" if we don't have cookies to test.
+					indexPageObject.userId = sansServerUtility.replaceIfNull(Cookies.get('userId'), "NONE");
+					indexPageObject.identityId = sansServerUtility.replaceIfNull(Cookies.get('identityId'), "NONE");
+					indexPageObject.openIdToken = sansServerUtility.replaceIfNull(Cookies.get('openIdToken'), "NONE");
+					
+					// Configure our AWS credentials	
+					var creds = AWS.config.credentials;
+					creds.params.IdentityId = indexPageObject.identityId;
+					creds.params.Logins = {
+						'cognito-identity.amazonaws.com': indexPageObject.openIdToken
+					};
+					creds.expired = true;
+					
+					// Test our AWS credentials
+					AWS.config.credentials.get(function(err)
+					{
+						if(err)
+						{
+							console.log(err, err.stack);
+							
+							// Error with credentials, redirect the user to the login screen
+							window.location.href = "login.html";
+						}
+						else
+						{
+							// We have a login session, so init the index page
+							indexPageObject.initPage();
+						}
+			    	});
+				}
 				
 				this.initPage = function()
 				{
-					indexPageObject.awsLambda = new AWS.Lambda();
+					$("#ApplicationContainer").show();
 					
-					$("#loginButton").click(function(){
-						indexPageObject.submitLoginForm();
-					});
-					
-					$("#viewUserButton").click(function(){
-						indexPageObject.viewUser();
-					});
-				}
-				
-				this.submitLoginForm = function()
-				{
-					$("#loginForm").hide();
-					$("#progressPanel").show();
-					
-					var requestBody = {
-							username: $("#username").val(),
-							password: $("#password").val()
-					};
-					
-					$.ajax(
-					{
-						url: sansServerConfig.baseServiceUrl + "/authenticate",
-						data: JSON.stringify(requestBody),
-						type: "POST",
-						cache:false,
-						dataType: "json",
-						success: function (response) 
-						{
-							console.log(response);
-							
-							if(response.status == "SUCCESS")
-							{
-								indexPageObject.userId = response.data.authenticatedUser.userId;
-								indexPageObject.identityId = response.data.authenticatedUser.identityId;
-								indexPageObject.openIdToken = response.data.authenticatedUser.openIdToken;
-								
-								// Configure our AWS credentials	
-								var creds = AWS.config.credentials;
-								creds.params.IdentityId = indexPageObject.identityId;
-								creds.params.Logins = {
-									'cognito-identity.amazonaws.com': indexPageObject.openIdToken
-								};
-								creds.expired = true;
-								
-								// Hide the login page
-								$("#progressPanel").hide();
-								
-								// Display the authenticated page
-								$("#info").text("Welcome " + response.data.authenticatedUser.fullName);
-								$("#viewUserForm").show();
-							}
-							else
-							{
-								$("#errorMessage").text(response.statusMessage);
-								$("#errorPanel").show();
-								
-								$("#progressPanel").hide();
-								$("#loginForm").show();
-							}
-		                },
-		                error: function (data) 
-		                {
-		                	console.log(data);
-		                }
-					});
-				}
-				
-				this.viewUser = function()
-				{
-					var requestBody = {
-							userId: indexPageObject.userId
-					};
-					
-					AWS.config.credentials.get(function(err)
-					{
-				    	if(err)
-				    	{
-				    		console.log(err, err.stack);
-				    	}
-				    	else
-				    	{
-							indexPageObject.awsLambda.invoke(
-								{
-									FunctionName: sansServerConfig.environmentPrefix + 'ViewUser',
-					        		Payload: JSON.stringify(requestBody)
-					        	},
-					        	function(err, data)
-					        	{
-					        		if (err)
-					        		{
-					        			console.log(err, err.stack);
-					        		}
-					        		else
-					        		{
-					        			var output = JSON.parse(data.Payload);
-					        			
-					        			var fullName = output.data.user.fullName;
-					        			alert("Welcome " + fullName);
-					        		}
-					        	}
-					    	);
-				    	}
-				    });
+					alert("We did it!!!");
 				}
 			}
 			
-			indexPageObject.initPage();
+			indexPageObject.checkLoginSession();
 		});
 	</script>
 </html>

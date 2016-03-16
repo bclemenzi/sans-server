@@ -1,0 +1,149 @@
+body 
+{
+	background: url("../images/newhampshire.png") no-repeat fixed center center / cover rgba(0, 0, 0, 0);
+	font-family: Arial,Verdana,sans-serif;
+ 			font-size: 12px;
+ 			margin: 0;
+ 			outline: medium none;
+ 			padding: 0;
+ 			color: #FFFFFF;
+}
+#wrapper 
+{
+	margin: 100px auto 0;
+	width: 600px;
+}
+#content.padded 
+{
+	padding: 25px;
+	width: 600px;
+}
+#content 
+{
+	background: none repeat scroll 0 0 #000000;
+	border: 1px none;
+	border-radius: 5px 5px 5px 5px;
+	min-height: 300px;
+	position: relative;
+	width: 600px;
+}
+#loginLogo 
+{
+    color: #ffffff;
+    display: block;
+    float: left;
+    font-family: "Oleo Script",cursive;
+    font-size: 3.5em;
+    padding: 90px 0 0;
+    text-align: right;
+    width: 250px;
+}
+#loginLogoSubHead
+{
+    color: #ffffff;
+    display: block;
+    float: left;
+    font-family: "Oleo Script",cursive;
+    font-size: 19px;
+    text-align: right;
+    width: 250px;
+}
+#loginElements 
+{
+	float: left;
+	margin: 40px 0 0 75px;
+	width: 250px;
+}
+#processingStatus
+{
+	color: #ffffff;
+	font-size: 20px;
+	margin-top: 75px;
+}
+#processingStatusMessage
+{
+	color: #ffffff;
+	font-size: 14px;
+}
+body.login p.field 
+{
+	font-weight: bold;
+}
+body.login p 
+{
+	margin: 0 0 20px;
+}
+#loginElements input.text 
+{
+	font-size: 20px;
+	width: 225px;
+}
+#loginElements p
+{
+	font-size: 14;
+	width: 250px;
+}
+.loginLabel
+{
+	font-size: 16px;
+}
+form 
+{
+	border: 0 none;
+	margin: 0;
+	padding: 0;
+}
+.btn-submit:hover
+{
+	background: -webkit-radial-gradient(#96C4FF, #7EA5D7) repeat scroll 0 0 rgba(0, 0, 0, 0);
+	background: -o-radial-gradient(#96C4FF, #7EA5D7) repeat scroll 0 0 rgba(0, 0, 0, 0);
+	background: -moz-radial-gradient(#96C4FF, #7EA5D7) repeat scroll 0 0 rgba(0, 0, 0, 0);
+	background: radial-gradient(#96C4FF, #7EA5D7) repeat scroll 0 0 rgba(0, 0, 0, 0);
+	border: 0 none;
+	border-radius: 5px 5px 5px 5px;
+	clear: none;
+	color: #FFFFFF;
+	display: inline;
+	float: none;
+	font-size: 12px;
+	letter-spacing: 0;
+	outline: 1px none;
+	padding: 6px;
+	cursor:pointer;
+}
+.btn-submit 
+{
+	background-color: #7EA5D7;
+	border: 1px none;
+	border-radius: 5px 5px 5px 5px;
+	clear: none;
+	color: #FFFFFF;
+	display: inline;
+	float: none;
+	font-size: 12px;
+	letter-spacing: 0;
+	outline: 0 none;
+	padding: 6px;
+	cursor:pointer;
+}
+#copyright 
+{
+	width: 100%;
+	padding-bottom: 50px;
+	font-size: 12px;
+	color: #252525;
+	text-align: center;
+	font-weight: bold;
+}
+#selfRegistrationMessage
+{
+	font-size: 14px;
+	text-decoration: underline;
+	cursor: pointer;
+}
+.errors
+{
+	color: #7EA5D7;
+	font-weight: BOLD;
+	font-size: 14px;
+}
