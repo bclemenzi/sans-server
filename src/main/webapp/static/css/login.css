@@ -50,9 +50,9 @@ body
 }
 #loginElements 
 {
-	float: left;
-	margin: 40px 0 0 75px;
-	width: 250px;
+    float: left;
+    margin: 40px 0 0 60px;
+    width: 266px;
 }
 #processingStatus
 {
