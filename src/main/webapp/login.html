@@ -76,6 +76,7 @@
 						Cookies.set("userId", "NONE", { expires: 1 });
 						Cookies.set("identityId", "NONE", { expires: 1 });
 						Cookies.set("openIdToken", "NONE", { expires: 1 });
+						Cookies.set("fullName", "", { expires: 1 });
 					});
 					
 					$("#selfRegistrationMessage").click(function(){
@@ -131,6 +132,7 @@
 										Cookies.set("userId", response.data.authenticatedUser.userId, { expires: 1 });
 										Cookies.set("identityId", response.data.authenticatedUser.identityId, { expires: 1 });
 										Cookies.set("openIdToken", response.data.authenticatedUser.openIdToken, { expires: 1 });
+										Cookies.set("fullName", response.data.authenticatedUser.fullName, { expires: 1 });
 										
 										// Redirect the user to the index page.
 										window.location.href = "index.html";

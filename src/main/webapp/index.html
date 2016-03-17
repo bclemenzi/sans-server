@@ -6,7 +6,8 @@
     	<meta name="viewport" content="width=device-width, initial-scale=1"/>
     	<meta name="description" content=""/>
     	<meta name="author" content=""/>
-		<title>NFB Software: SansServer Application Example</title>
+		<title>SansServer - Hub</title>
+		<link href="static/css/simplegrid-large.css" rel="stylesheet" type="text/css"/>
 		<link href="static/css/style.css" rel="stylesheet" type="text/css"/>
 		<script src="static/js/jquery.js"></script>
 		<script src="static/js/aws-sdk.min.js"></script>
@@ -15,11 +16,62 @@
 		<script src="static/js/sanserver-utility.js"></script>
 		<script src="generated/global-app-config.js"></script>
 	</head>
-	<body>
-		<div id="ApplicationContainer" style="display: none;">
-  			<h1>SansServer SAP Web Application Example</h1>
-  			<div id="info">Hellz Yeah</div>
-  		</div>
+	<body class="ApplicationWrapper">
+		<div class="grid grid-pad">
+			<div class="col-1-1">
+				<div class="content">
+					<div class="topbar">
+						<div class="global-nav">
+							<div class="global-nav-inner">
+								<div class="container">
+									<div class="pull-left">
+										<a class="nav-logo-link" href="index.html">SansServer</a>
+									</div>
+									<div class="welcomeBarWrapper">
+										<span id="WelcomeBar">Welcome</span>
+										<input id="logoutButton" name="logout-button" class="nfb-button" value="LOG OUT" type="button" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="grid grid-pad">
+			<div class="col-1-12">
+				<div id="ApplicationMenu" class="content">
+					<div class="panel flex-panel">
+						<div class="flex-panel-content">
+		                	<ul id="sidebarMenu" class="side-nav">
+		                    	<li>
+		                        	<a href="#home"><div class="icon toolbarIcon menu-home" title="Visit Home"></div></a>
+		                    	</li>
+		                    	<li>
+		                        	<a href="#users"><div class="icon toolbarIcon menu-users" title="View Users"></div></a>
+		                    	</li>
+		                    	<li>
+		                        	<a href="#settings"><div class="icon toolbarIcon menu-settings" title="View Settings"></div></a>
+		                    	</li>
+		                	</ul>
+						</div>
+					</div>
+					<div class="copyright">v1.0.0</div>
+				</div>
+			</div>
+			<div class="col-11-12">
+				<div id="ApplicationContent" class="content">
+					<div class="panel flex-panel" style="min-height: 500px;">
+						<div id="PageTitle" class="flex-panel-header">Title</div>
+						<hr/>
+						<div id="PageContent" class="flex-panel-content">
+							<div>content space content space content space content space content space content space</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="copyright">Copyright (c) 2016 SansServer, an NFB Software property. All rights reserved.</div>
 	</body>
 	<script>
 		$(document).ready(function() 
@@ -34,6 +86,7 @@
 				var userId;
 				var identityId;
 				var openIdToken;
+				var fullName;
 
 				this.checkLoginSession = function()
 				{
@@ -41,6 +94,7 @@
 					indexPageObject.userId = sansServerUtility.replaceIfNull(Cookies.get('userId'), "NONE");
 					indexPageObject.identityId = sansServerUtility.replaceIfNull(Cookies.get('identityId'), "NONE");
 					indexPageObject.openIdToken = sansServerUtility.replaceIfNull(Cookies.get('openIdToken'), "NONE");
+					indexPageObject.fullName = sansServerUtility.replaceIfNull(Cookies.get('fullName'), "");
 					
 					// Configure our AWS credentials	
 					var creds = AWS.config.credentials;
@@ -63,16 +117,31 @@
 						else
 						{
 							// We have a login session, so init the index page
+							$("#ApplicationWrapper").show();
+							
 							indexPageObject.initPage();
 						}
 			    	});
 				}
 				
+				this.logout = function()
+				{
+					Cookies.set("userId", "NONE", { expires: 1 });
+					Cookies.set("identityId", "NONE", { expires: 1 });
+					Cookies.set("openIdToken", "NONE", { expires: 1 });
+					Cookies.set("fullName", "", { expires: 1 });
+					
+					window.location.href = "login.html";
+				}
+				
 				this.initPage = function()
 				{
-					$("#ApplicationContainer").show();
+					$("#logoutButton").click(function(){
+						indexPageObject.logout();
+					});
 					
-					alert("We did it!!!");
+					// Set the user's name in the header
+					$("#WelcomeBar").text("Welcome, " + indexPageObject.fullName);
 				}
 			}
 			
