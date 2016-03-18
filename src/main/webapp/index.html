@@ -12,9 +12,14 @@
 		<script src="static/js/jquery.js"></script>
 		<script src="static/js/aws-sdk.min.js"></script>
 		<script src="static/js/jquery.cookie.js"></script>
+		<script src="static/js/require.js"></script>
 		<script src="static/js/sansserver-jquery-expand.js"></script>
 		<script src="static/js/sanserver-utility.js"></script>
 		<script src="generated/global-app-config.js"></script>
+    	<script>
+    		// Global application router object
+			var m_applicationRouter;
+		</script>
 	</head>
 	<body class="ApplicationWrapper">
 		<div class="grid grid-pad">
@@ -60,15 +65,7 @@
 				</div>
 			</div>
 			<div class="col-11-12">
-				<div id="ApplicationContent" class="content">
-					<div class="panel flex-panel" style="min-height: 500px;">
-						<div id="PageTitle" class="flex-panel-header">Title</div>
-						<hr/>
-						<div id="PageContent" class="flex-panel-content">
-							<div>content space content space content space content space content space content space</div>
-						</div>
-					</div>
-				</div>
+				<div id="ApplicationContent" class="content"></div>
 			</div>
 		</div>
 		<div class="copyright">Copyright (c) 2016 SansServer, an NFB Software property. All rights reserved.</div>
@@ -142,6 +139,32 @@
 					
 					// Set the user's name in the header
 					$("#WelcomeBar").text("Welcome, " + indexPageObject.fullName);
+					
+					// Configure RequireJS
+		    		requirejs.config({
+		    	    	baseUrl: "static/",
+		    	        deps: ["js/jquery"],
+		    	        shim: {
+		    	            'js/jquery': {
+		    	                exports: '$'
+		    	            },
+		    	            "kendo/js/kendo.core": {
+		    	                deps: ["js/jquery"]
+		    	            }
+		    	        }
+		    	    });
+		    		
+					// Init the page router
+		    		requirejs(['app/MainRouter'], function(Router)
+    	    		{
+    	    			$.ajaxSetup ({
+    	    			    // Disable caching of AJAX responses
+    	    			    cache: false
+    	    			});
+    	    			
+    	    			// Configure our application router
+    	    			Router.startRouting();
+    	    		});
 				}
 			}
 			
