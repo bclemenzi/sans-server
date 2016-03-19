@@ -1,0 +1,199 @@
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<meta name="pinterest" content="nopin"/>
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+    	<meta name="description" content=""/>
+    	<meta name="author" content=""/>
+    	<link href="https://fonts.googleapis.com/css?family=Oleo+Script" rel="stylesheet" type="text/css" />
+		<link href="static/css/login.css" rel="stylesheet" type="text/css"/>
+		<script src="static/js/jquery.js"></script>
+		<script src="static/js/aws-sdk.min.js"></script>
+		<script src="static/js/jquery.cookie.js"></script>
+		<script src="static/js/sansserver-jquery-expand.js"></script>
+		<script src="static/js/sanserver-utility.js"></script>
+		<script src="generated/global-app-config.js"></script>
+		<title>SansServer - Registration</title>
+	</head>
+	<body>
+		<div id="wrapper">
+			<div id="content" class="padded">
+				<div id="loginLogo">SansServer<br/><span id="loginLogoSubHead">Self Registration Form&nbsp;&nbsp;&nbsp;</span></div>
+				<div id="registrationElements">
+					<div id="loginForm" class="fm-v clearfix" style="padding-left: 20px;">
+						<div id="errorMessage" class="errors">Please fill out the form below to register for a new account</div>
+						<p class="field">
+							<span class="loginLabel">Full Name</span>
+							<br/>
+							<input id="fullName" name="fullName" class="required" tabindex="1" type="text" value="" placeholder="Joe Smith" size="40" maxlength="50"/>
+						</p>
+						<p class="field">
+							<span class="loginLabel">Email Address</span>
+							<br/>
+							<input id="username" name="username" class="required" tabindex="2" type="text" value="" placeholder="example@domain.com" size="40" maxlength="50"/>
+						</p>
+						<p class="field">
+							<span class="loginLabel">Password</span>
+							<br/>
+							<input id="password" name="password" class="required" tabindex="3" type="password" value="" size="40" maxlength="50"/>
+						</p>
+						<p class="field">
+							<span class="loginLabel">Confirm Password</span>
+							<br/>
+							<input id="passwordConfirm" name="passwordConfirm" class="required" tabindex="4" type="password" value="" size="40" maxlength="50"/>
+						</p>
+						<p class="field">
+							<input id="registerButton" class="btn-submit" value="REGISTER" tabindex="5" type="submit" />
+						</p>
+					</div>
+					<div id="processingDiv" class="fm-v clearfix" style="display: none;">
+						<div id="processingStatus">Please Wait...</div>
+						<br/>
+						<div id="processingStatusMessage">We are currently creating your account</div>
+					</div>
+					<div id="successDiv" class="fm-v clearfix" style="display: none;">
+						<div id="successStatus">Welcome!!</div>
+						<br/>
+						<div id="successStatusMessage">Your account has been created and we have sent a confirmation to your email account.<br/><br/>To log into the SansServer application now, please click the login button below.</div>
+						<p class="field">
+							<input id="goToLoginButton" class="btn-submit" value="GO TO LOGIN" tabindex="6" type="button" />
+						</p>
+					</div>
+				</div>
+			</div>
+			<div id="copyright">
+				<p>Copyright (c) 2016 SansServer, an NFB Software property. All rights reserved.</p>
+            </div>
+		</div>
+	</body>
+	<script>
+		$(document).ready(function() 
+		{
+			AWS.config.region = globalAppConfig.region;
+			AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+				IdentityPoolId: globalAppConfig.identityPoolId
+			});
+			
+			selfRegistrationObject = new function()
+			{
+				this.initPage = function()
+				{
+					$("#registerButton").click(function(){
+						selfRegistrationObject.submitRegistrationForm();
+					});
+					
+					$("#goToLoginButton").click(function(){
+						// Redirect the user to the login page.
+						window.location.href = "login.html";
+					});
+					
+					// make sure that the user can only enter an email address
+					$("#username").emailAddressEntry();
+					
+					// Make sure the user doesn't add long values
+					$("#fullName").useMaxLength();
+					$("#username").useMaxLength();
+					$("#password").useMaxLength();
+					$("#passwordConfirm").useMaxLength();
+				}
+				
+				this.submitRegistrationForm = function()
+				{
+					if(selfRegistrationObject.validationRegistrationForm())
+					{
+						$("#errorMessage").text("");
+						
+						$("#loginSubmitButton").kDisable();
+						$("#loginClearButton").kDisable();
+						
+					 	$("#loginForm").hide();
+					 	$("#processingDiv").show();
+					 	$("#successDiv").hide();
+					 	
+						var requestBody = {
+								fullName: $("#fullName").val(),
+								username: $("#username").val(),
+								password: $("#password").val()
+						};
+						
+						$.ajax(
+						{
+							url: globalAppConfig.baseServiceUrl + "/userRegistration",
+							data: JSON.stringify(requestBody),
+							type: "POST",
+							cache:false,
+							dataType: "json",
+							success: function (response) 
+							{
+								console.log(response);
+								
+								if(response.status == "SUCCESS")
+								{
+									$("#loginForm").hide();
+								 	$("#processingDiv").hide();
+									$("#successDiv").show();
+								}
+								else
+								{
+									selfRegistrationObject.displayErrorMessage(response.statusMessage);
+								}
+			                },
+			                error: function (data) 
+			                {
+			                	console.log(data);
+			                	
+			                	selfRegistrationObject.displayErrorMessage("Unable to communicate with server");
+			                }
+						});
+					}
+				}
+				
+				this.validationRegistrationForm = function()
+				{
+					if(sansServerUtility.isBlank($("#fullName").val()))
+					{
+						$("#errorMessage").text("Please enter you full name");
+						return false;
+					}
+					else if(sansServerUtility.isBlank($("#username").val()))
+					{
+						$("#errorMessage").text("Please enter your email address");
+						return false;
+					}
+					else if(sansServerUtility.isBlank($("#password").val()))
+					{
+						$("#errorMessage").text("Please enter a password");
+						return false;
+					}
+					else if(sansServerUtility.isBlank($("#passwordConfirm").val()))
+					{
+						$("#errorMessage").text("Please enter your password confirmation");
+						return false;
+					}
+					else if(sansServerUtility.emptyIfNull($("#password").val()) != sansServerUtility.emptyIfNull($("#passwordConfirm").val()))
+					{
+						$("#errorMessage").text("Password fields must math");
+						return false;
+					}
+					
+					return true;
+				}
+				
+				this.displayErrorMessage = function(errorMessage)
+				{
+					$("#loginForm").show();
+				 	$("#processingDiv").hide();
+				 	$("#successDiv").hide();
+				 	
+				 	$("#loginSubmitButton").kEnable();
+					$("#loginClearButton").kEnable();
+					
+					$("#errorMessage").text(errorMessage);
+				}
+			}
+			
+			selfRegistrationObject.initPage();
+		});
+	</script>
+</html>

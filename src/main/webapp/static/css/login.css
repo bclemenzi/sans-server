@@ -54,6 +54,12 @@ body
     margin: 40px 0 0 60px;
     width: 266px;
 }
+#registrationElements
+{
+	float: left;
+    margin: 0px 0 0 60px;
+    width: 266px;
+}
 #processingStatus
 {
 	color: #ffffff;
@@ -61,6 +67,17 @@ body
 	margin-top: 75px;
 }
 #processingStatusMessage
+{
+	color: #ffffff;
+	font-size: 14px;
+}
+#successStatus
+{
+	color: #ffffff;
+	font-size: 20px;
+	margin-top: 75px;
+}
+#successStatusMessage
 {
 	color: #ffffff;
 	font-size: 14px;
