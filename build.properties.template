@@ -6,7 +6,7 @@
 ##############################################################################################################
 environment.namePrefix=xxxxxxxxx
 environment.stage=xxxxxxx
-environment.siteUrl=myapp.mydomain.com
+environment.siteUrl=http://myapp.mydomain.com
 
 ##############################################################################################################
 # AWS API Configuration

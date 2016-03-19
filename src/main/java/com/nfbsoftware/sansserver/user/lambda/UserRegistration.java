@@ -6,6 +6,7 @@ import com.nfbsoftware.sansserverplugin.sdk.annotation.AwsLambdaWithGateway;
 import com.nfbsoftware.sansserverplugin.sdk.aws.AmazonSESManager;
 import com.nfbsoftware.sansserverplugin.sdk.lambda.BaseLambdaHandler;
 import com.nfbsoftware.sansserverplugin.sdk.lambda.model.HandlerResponse;
+import com.nfbsoftware.sansserverplugin.sdk.util.Entity;
 import com.nfbsoftware.sansserverplugin.sdk.util.SecureUUID;
 import com.nfbsoftware.sansserverplugin.sdk.util.StringUtil;
 
@@ -103,6 +104,8 @@ public class UserRegistration extends BaseLambdaHandler
             String subject = "Welcome to SansServer";
             StringBuffer messageBody = new StringBuffer();
             
+            String siteUrl = m_properties.getProperty(Entity.FrameworkProperties.ENVIRONEMNT_SITE_URL);
+            
             messageBody.append("<div>");
             messageBody.append("<div>Hi " + fullName + ",</div>");
             messageBody.append("<br/>");
@@ -110,7 +113,7 @@ public class UserRegistration extends BaseLambdaHandler
             messageBody.append("<br/>");
             messageBody.append("<div>SansServer is a sample application.  We will not communicate with or share this email address with anyone.  This email has been sent as a confirmation to the creation of a demo account on the SansServer application.</div>");
             messageBody.append("<br/>");
-            messageBody.append("<div>To access your new demo account, please visit <a href='http://sansserver.nfbsoftware.com'>sansserver.nfbsoftware.com</a> and login with the email address and password you created during registration.</div>");
+            messageBody.append("<div>To access your new demo account, please visit <a href='" + siteUrl + "'>" + siteUrl + "</a> and login with the email address and password you created during registration.</div>");
             messageBody.append("<br/>");
             messageBody.append("<div>Thank you!<br/>The SansServer Team</div>");
             messageBody.append("</div>");
