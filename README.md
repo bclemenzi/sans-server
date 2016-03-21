@@ -5,7 +5,7 @@ SansServer is a small web application implemented with a serverless architecture
 
 For the SansServer demo application, we'll be using the Amazon API Gateway to expose the Lambda functions as HTTP endpoints.  We'll also use Identity and Access Management (IAM) with Amazon Cognito to retrieve temporary credentials for a user to grant access to these APIs and functions.  Amazon DynamoDB will be used for the application's persistent storage system.
 
-Please keep in mind, this project has been written as an example and therefore should not be considered production ready.  It has; however, tried to follow a few best practices to give you a fairly clean development framework to build on top of; which is made possible by the SansServer Plugin/SDK (http://github.com/bclemenzi/sans-server-plugin).  I recommended visiting the sans-server-plugin project page, but the high-level feature gain is the ability to use Java annotations to fully build, configure, and deploy our application under Amazon Web Services.
+Please keep in mind, this project has been written as an example and therefore should not be considered production ready.  It has; however, tried to follow best practices to give you a clean development framework to build on top of; which is made possible by the SansServer Plugin/SDK (http://github.com/bclemenzi/sans-server-plugin).  I recommended visiting the sans-server-plugin project page, but the high-level feature gain is the ability to use Java annotations to fully build, configure, and deploy our application under Amazon Web Services.
 
 Features
 --------
