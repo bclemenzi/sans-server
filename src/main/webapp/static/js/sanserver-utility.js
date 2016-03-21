@@ -51,4 +51,42 @@ var sansServerUtility = new function()
 			return value;
 		}
 	}
+	
+	/*
+	 * Wrapper function to execute lambda transactions
+	 */
+	this.lambdaCall = function(functionName, requestData, successFunction, errorFunction)
+	{
+		var awsLambda = new AWS.Lambda();
+		
+		AWS.config.credentials.get(function(err)
+		{
+	    	if(err)
+	    	{
+	    		errorFunction(err);
+	    	}
+	    	else
+	    	{
+	    		awsLambda.invoke(
+					{
+						FunctionName: functionName,
+		        		Payload: JSON.stringify(requestData)
+		        	},
+		        	function(err, data)
+		        	{
+		        		if (err)
+		        		{
+		        			errorFunction(err);
+		        		}
+		        		else
+		        		{
+		        			var output = JSON.parse(data.Payload);
+		        			
+		        			successFunction(output);
+		        		}
+		        	}
+		    	);
+	    	}
+	    });
+	}
 }

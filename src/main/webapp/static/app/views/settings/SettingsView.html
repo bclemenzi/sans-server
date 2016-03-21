@@ -2,6 +2,31 @@
 	<div id="pageTitle" class="flex-panel-header">Settings</div>
 	<hr/>
 	<div id="pageContent" class="flex-panel-content">
-		<div>This is the settings page</div>
+		<div id="userAccountSettingsForm">
+			<div style="line-height: 2.75em;">
+				<label class="form_labelhlt">Email Address:&nbsp;</label>
+				<span id="emailAddress" class="form_input_lrg"></span>
+			</div>
+			<br/>
+			<div style="line-height: 2.75em;">
+				<label for="oldPassword" class="form_label">Current Password:&nbsp;</label>
+				<input type="password" id="oldPassword" name="oldPassword" class="form_input_med k-textbox"/>	 
+				<span class="k-invalid-msg" data-for="oldPassword"></span>
+			</div>
+			<div style="line-height: 2.75em;">
+  				<label for="newPassword" class="form_label">New Password:&nbsp;</label>
+				<input type="password" id="newPassword" name="newPassword" class="form_input_med k-textbox"/>	            						
+				<span class="k-invalid-msg" data-for="newPassword"></span>
+			</div>
+			<div style="line-height: 2.75em;">
+  				<label for="confirmPassword" class="form_label">Confirm Password:&nbsp;</label>
+				<input type="password" id="confirmPassword" name="confirmPassword" class="form_input_med k-textbox"/>	            						
+				<span class="k-invalid-msg" data-for="confirmPassword"></span>
+			</div>
+			<br/>
+			<div style="line-height: 2.75em;">
+				<button id="saveSettingsButton" class="nfb-button" type="button">Save Settings</button>
+			</div>
+		</div>
 	</div>
 </div>

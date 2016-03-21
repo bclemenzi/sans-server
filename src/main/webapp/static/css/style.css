@@ -243,3 +243,64 @@ hr
 {
 	background-image: url("../images/menu-settings-on.png");
 }
+
+.form_label
+{
+    font-family: Arial,Verdana,sans-serif;
+	display: inline-block;
+	text-align: right;
+	width: 140px;
+}
+
+.form_labelhlt
+{
+	font-family: Arial,Verdana,sans-serif;
+	display: inline-block;
+	text-align: right;
+	width: 140px;
+	font-weight: bold;
+}
+
+.form_input_sm
+{
+	width: 75px;
+}
+
+.form_input_med
+{
+	width: 150px;
+}
+
+.form_input_lrg
+{
+	width: 300px;
+}
+
+.form_input_xl
+{
+	width: 450px;
+}
+
+.form_input_sm_list
+{
+	font-family: Arial,Verdana,sans-serif;
+	width: 75px;
+}
+
+.form_input_med_list
+{
+	font-family: Arial,Verdana,sans-serif;
+	width: 150px;
+}
+
+.form_input_lrg_list
+{
+	font-family: Arial,Verdana,sans-serif;
+	width: 300px;
+}
+
+.form_input_xl_list
+{
+	font-family: Arial,Verdana,sans-serif;
+	width: 450px;
+}

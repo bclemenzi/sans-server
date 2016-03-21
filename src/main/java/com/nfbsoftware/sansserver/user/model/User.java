@@ -33,6 +33,9 @@ public class User implements Serializable
     @DynamoDBAttribute(attributeName="OPEN_ID_TOKEN")
     private String openIdToken;
     
+    @DynamoDBAttribute(attributeName="IDENTITY_ID")
+    private String identityId;
+    
     public String getUserId()
     {
         return userId;
@@ -85,5 +88,14 @@ public class User implements Serializable
     public void setOpenIdToken(String openIdToken) 
     {
         this.openIdToken = openIdToken;
+    }
+    
+    public String getIdentityId()
+    {
+        return identityId;
+    }
+    public void setIdentityId(String identityId)
+    {
+        this.identityId = identityId;
     }
 }

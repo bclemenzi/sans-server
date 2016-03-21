@@ -34,6 +34,7 @@ public class AuthenticateUserTest
     {
         TestContext ctx = new TestContext();
 
+        // Set our function name
         ctx.setFunctionName("Authenticate User");
 
         return ctx;
