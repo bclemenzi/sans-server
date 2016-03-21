@@ -64,11 +64,13 @@ public class AuthenticateUser extends BaseLambdaHandler
                     
                     m_logger.log("Get OpenId Token for: " + username);
                     GetOpenIdTokenForDeveloperIdentityResult identityResult = amazonCognitoManager.getDeveloperIdentityResult(user.getUserId());
-                    
-                    // Update the token on the user record
                     user.setOpenIdToken(identityResult.getToken());
                     
-                    // Save the new token to our user account.
+                    m_logger.log("Get IdentityId for: " + username);
+                    String identityId = identityResult.getIdentityId();
+                    user.setIdentityId(identityId);
+                    
+                    m_logger.log("Save the new token to our user account: " + username);
                     userDao.updateUser(user);
                     
                     // Build the response object
@@ -76,7 +78,7 @@ public class AuthenticateUser extends BaseLambdaHandler
                     authenticatedUser.setUserId(user.getUserId());
                     authenticatedUser.setFullName(user.getFullName());
                     authenticatedUser.setRegion(regionName);
-                    authenticatedUser.setIdentityId(identityResult.getIdentityId());
+                    authenticatedUser.setIdentityId(identityId);
                     authenticatedUser.setIdentityPoolId(identityPoolId);
                     authenticatedUser.setOpenIdToken(user.getOpenIdToken());
                     
