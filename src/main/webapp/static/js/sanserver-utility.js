@@ -63,6 +63,7 @@ var sansServerUtility = new function()
 		{
 	    	if(err)
 	    	{
+	    		console.log(err);
 	    		errorFunction(err);
 	    	}
 	    	else
@@ -76,6 +77,7 @@ var sansServerUtility = new function()
 		        	{
 		        		if (err)
 		        		{
+		        			console.log(err);
 		        			errorFunction(err);
 		        		}
 		        		else
