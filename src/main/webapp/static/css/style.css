@@ -17,6 +17,14 @@ body.ApplicationWrapper
     background-repeat: no-repeat;
 }
 
+.loadingPanel
+{
+	display: flex;
+  	align-items: center;
+  	justify-content: center;
+  	height: 25em;
+}
+
 .topbar
 {
 	border-bottom: 1px solid rgba(0, 0, 0, 0.05);
@@ -177,7 +185,6 @@ hr
     color: #252525;
     font-size: 12px;
     font-weight: normal;
-    padding-bottom: 50px;
     text-align: center;
     width: 100%;
 }

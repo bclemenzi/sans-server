@@ -14,7 +14,7 @@ var sansServerUtility = new function()
 	{
 		var ret = false;
 
-		if ( value === "" || value == null || value === "null" || value == undefined )
+		if ( value == "" || value == null || value == "null" || value == undefined )
 		{
 			ret = true;
 		}
@@ -27,7 +27,7 @@ var sansServerUtility = new function()
 	 */
 	this.emptyIfNull = function(value)
 	{
-		if(value == null || value === "null" || value == undefined)
+		if(sansServerUtility.isBlank(value))
 		{
 			return "";
 		}
@@ -90,5 +90,28 @@ var sansServerUtility = new function()
 		    	);
 	    	}
 	    });
+	}
+	
+	/**
+	 * The navigateTo function will assist in the page transitions by adding a loading gif while the page loads.
+	 *
+	 * @param id
+	 */
+	this.navigateTo = function(router, rashRoute, silentMode)
+	{
+		// If we are not in silent mode, display the processing image
+		if(sansServerUtility.isBlank(silentMode))
+		{
+			// Swap the content wrapper out with the loading image
+			$("#ApplicationContent").html("<div style='min-height: 500px;' class='panel flex-panel'><div id='pageLoadingPanel' class='loadingPanel'><img src='static/images/loading-image.gif'/></div></div>");
+
+			// Navigate to out content page
+			router.navigate(rashRoute);
+		}
+		else
+		{
+			// Navigate without the processing image since we are not leaving the page
+			router.navigate(rashRoute, silentMode);
+		}
 	}
 }
