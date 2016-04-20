@@ -55,8 +55,8 @@ public class AuthenticateUser extends BaseLambdaHandler
                 // Salt and hash the password passed in to make sure it is the same as the one stored in our database
                 String testHash = SecureUUID.generateSaltedMD5(clearPassword, user.getSalt());
                 
-                // Verify that the password hashes match
-                if(user.getPassword().equalsIgnoreCase(testHash))
+                // Verify that the password hashes match and that the user is active
+                if(user.getPassword().equalsIgnoreCase(testHash) && user.isActive())
                 {
                     m_logger.log("Credentials validated for: " + username);
                     

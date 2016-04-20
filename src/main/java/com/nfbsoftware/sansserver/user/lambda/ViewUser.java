@@ -3,7 +3,6 @@ package com.nfbsoftware.sansserver.user.lambda;
 import com.nfbsoftware.sansserver.user.dao.UserDao;
 import com.nfbsoftware.sansserver.user.model.User;
 import com.nfbsoftware.sansserverplugin.sdk.annotation.AwsLambda;
-import com.nfbsoftware.sansserverplugin.sdk.annotation.AwsLambdaWithGateway;
 import com.nfbsoftware.sansserverplugin.sdk.lambda.BaseLambdaHandler;
 import com.nfbsoftware.sansserverplugin.sdk.lambda.model.HandlerResponse;
 import com.nfbsoftware.sansserverplugin.sdk.util.StringUtil;
@@ -33,7 +32,7 @@ public class ViewUser extends BaseLambdaHandler
             UserDao userDao = new UserDao(this.m_properties);
             
             m_logger.log("Get user record by id: " + userId);
-            User user = (User)userDao.scanUser(1, "USER_ID", userId).get(0);
+            User user = (User)userDao.scanUser("USER_ID", userId).get(0);
             
             if(user != null)
             {

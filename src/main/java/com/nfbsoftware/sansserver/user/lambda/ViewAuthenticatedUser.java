@@ -34,7 +34,7 @@ public class ViewAuthenticatedUser extends BaseLambdaHandler
             
             if(!StringUtil.isNullOrEmpty(authenticatedIdentityId))
             {
-                User user = (User)userDao.scanUser(1, "IDENTITY_ID", authenticatedIdentityId).get(0);
+                User user = (User)userDao.scanUser("IDENTITY_ID", authenticatedIdentityId).get(0);
                 
                 // Add the model to the response map
                 handlerResponse.getData().put("user", user);

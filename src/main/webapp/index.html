@@ -7,17 +7,20 @@
     	<meta name="description" content=""/>
     	<meta name="author" content=""/>
 		<title>SansServer - Hub</title>
-		<link href="http://kendo.cdn.telerik.com/2014.2.716/styles/kendo.common.min.css" rel="stylesheet" />
-		<link href="http://kendo.cdn.telerik.com/2014.2.716/styles/kendo.default.min.css" rel="stylesheet" />
+		<link href="https://fonts.googleapis.com/css?family=Oleo+Script" rel="stylesheet" type="text/css" />
+		<link href="https://kendo.cdn.telerik.com/2014.2.716/styles/kendo.common.min.css" rel="stylesheet" />
+		<link href="https://kendo.cdn.telerik.com/2014.2.716/styles/kendo.default.min.css" rel="stylesheet" />
 		<link href="static/css/simplegrid-large.css" rel="stylesheet" type="text/css"/>
 		<link href="static/css/style.css" rel="stylesheet" type="text/css"/>
-		<script src="http://kendo.cdn.telerik.com/2014.2.716/js/jquery.min.js"></script>
-		<script src="http://kendo.cdn.telerik.com/2014.2.716/js/kendo.ui.core.min.js"></script>
+		<script src="static/js/jquery.min.js"></script>
+		<script src="static/js/underscore-min.js"></script>
+		<script src="static/js/kendo.all.min.js"></script>
 		<script src="static/js/aws-sdk.min.js"></script>
 		<script src="static/js/jquery.cookie.js"></script>
 		<script src="static/js/require.js"></script>
 		<script src="static/js/sansserver-jquery-expand.js"></script>
 		<script src="static/js/sanserver-utility.js"></script>
+		<script src="static/js/kendoExtentions.js"></script>
 		<script src="generated/global-app-config.js"></script>
 		<script>
 		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -33,7 +36,7 @@
 			var m_applicationRouter;
 		</script>
 	</head>
-	<body class="ApplicationWrapper">
+	<body id="ApplicationWrapper" class="ApplicationWrapper" style="display: none;">
 		<div class="grid grid-pad">
 			<div class="col-1-1">
 				<div class="content">
@@ -157,13 +160,13 @@
 					// Configure RequireJS
 		    		requirejs.config({
 		    	    	baseUrl: "static/",
-		    	        deps: ["js/jquery"],
+		    	        deps: ["js/jquery.min"],
 		    	        shim: {
-		    	            'js/jquery': {
+		    	            'js/jquery.min': {
 		    	                exports: '$'
 		    	            },
-		    	            "kendo/js/kendo.core": {
-		    	                deps: ["js/jquery"]
+		    	            "kendo/js/kendo.core.min": {
+		    	                deps: ["js/jquery.min"]
 		    	            }
 		    	        }
 		    	    });

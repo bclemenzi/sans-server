@@ -40,7 +40,7 @@ public class UpdateUser extends BaseLambdaHandler
             
             if(!StringUtil.isNullOrEmpty(authenticatedIdentityId))
             {
-                User userModel = (User)userDao.scanUser(1, "IDENTITY_ID", authenticatedIdentityId).get(0);
+                User userModel = (User)userDao.scanUser("IDENTITY_ID", authenticatedIdentityId).get(0);
                 
                 if(userModel != null)
                 {

@@ -1,14 +1,15 @@
-define([
-        'kendo/js/kendo.router',
-        'kendo/js/kendo.data',
-        'kendo/js/kendo.validator',
-        'kendo/js/kendo.listview',
-        'kendo/js/kendo.view'], function(
-        		kRouter,
-        		kData,
-        		kValidator,
-        		kListView,
-        		kView)
+define(['kendo/js/kendo.router.min',
+        'kendo/js/kendo.data.min',
+        'kendo/js/kendo.tabstrip.min',
+        'kendo/js/kendo.tooltip.min',
+        'kendo/js/kendo.validator.min',
+        'kendo/js/kendo.toolbar.min',
+        'kendo/js/kendo.multiselect.min',
+        'kendo/js/kendo.autocomplete.min',
+        'kendo/js/kendo.numerictextbox.min',
+        'kendo/js/kendo.grid.min',
+        'kendo/js/kendo.listview.min',
+        'kendo/js/kendo.view.min'], function()
 {
 	m_applicationRouter = new kendo.Router();
 

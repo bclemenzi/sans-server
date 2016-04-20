@@ -38,7 +38,7 @@ define(["module"], function (module) {
     }
 
     function loadForWebBrowser(name, req, load, config) {
-        req(['jquery', 'js/text!' + name + '.html'], function ($, value) {
+        req(['js/jquery.min', 'js/text!' + name + '.html'], function ($, value) {
             var template = wrapInScript(name, value);
 
             if (config.isBuild) {

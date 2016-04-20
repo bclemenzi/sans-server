@@ -36,6 +36,9 @@ public class User implements Serializable
     @DynamoDBAttribute(attributeName="IDENTITY_ID")
     private String identityId;
     
+    @DynamoDBAttribute(attributeName="ACTIVE")
+    private boolean active;
+    
     public String getUserId()
     {
         return userId;
@@ -97,5 +100,14 @@ public class User implements Serializable
     public void setIdentityId(String identityId)
     {
         this.identityId = identityId;
+    }
+    
+    public boolean isActive()
+    {
+        return active;
+    }
+    public void setActive(boolean active)
+    {
+        this.active = active;
     }
 }

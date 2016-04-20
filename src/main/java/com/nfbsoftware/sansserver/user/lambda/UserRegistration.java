@@ -52,6 +52,7 @@ public class UserRegistration extends BaseLambdaHandler
                 // Create our User model
                 userModel = new User();
                 userModel.setUserId(SecureUUID.generateGUID());
+                userModel.setActive(true);
                 userModel.setUsername(username);
                 userModel.setFullName(fullName);
                 
