@@ -78,6 +78,13 @@
 						loginPageObject.submitLoginForm();
 					});
 					
+					$("#username").enterKeyPress(function(){
+						loginPageObject.submitLoginForm();
+					});
+					$("#password").enterKeyPress(function(){
+						loginPageObject.submitLoginForm();
+					});
+					
 					$("#loginClearButton").click(function(){
 						$("#username").val("");
 						$("#password").val("");
@@ -95,71 +102,75 @@
 				
 				this.submitLoginForm = function()
 				{
-					$("#loginSubmitButton").kDisable();
-					$("#loginClearButton").kDisable();
-					
-				 	$("#loginForm").hide();
-				 	$("#processingDiv").show();
-				 	
-					var requestBody = {
-							username: $("#username").val(),
-							password: $("#password").val()
-					};
-					
-					$.ajax(
+					// Only submit if we have a username and password
+					if(!sansServerUtility.isBlank($("#username").val()) && !sansServerUtility.isBlank($("#password").val()))
 					{
-						url: globalAppConfig.baseServiceUrl + "/authenticate",
-						data: JSON.stringify(requestBody),
-						type: "POST",
-						cache:false,
-						dataType: "json",
-						success: function (response) 
+						$("#loginSubmitButton").kDisable();
+						$("#loginClearButton").kDisable();
+						
+					 	$("#loginForm").hide();
+					 	$("#processingDiv").show();
+					 	
+						var requestBody = {
+								username: $("#username").val(),
+								password: $("#password").val()
+						};
+						
+						$.ajax(
 						{
-							console.log(response);
-							
-							if(response.status == "SUCCESS")
+							url: globalAppConfig.baseServiceUrl + "/authenticate",
+							data: JSON.stringify(requestBody),
+							type: "POST",
+							cache:false,
+							dataType: "json",
+							success: function (response) 
 							{
-								// Configure our AWS credentials	
-								var creds = AWS.config.credentials;
-								creds.params.IdentityId = response.data.authenticatedUser.identityId;
-								creds.params.Logins = {
-									'cognito-identity.amazonaws.com': response.data.authenticatedUser.openIdToken
-								};
-								creds.expired = true;
+								console.log(response);
 								
-								AWS.config.credentials.get(function(err)
+								if(response.status == "SUCCESS")
 								{
-									if(err)
+									// Configure our AWS credentials	
+									var creds = AWS.config.credentials;
+									creds.params.IdentityId = response.data.authenticatedUser.identityId;
+									creds.params.Logins = {
+										'cognito-identity.amazonaws.com': response.data.authenticatedUser.openIdToken
+									};
+									creds.expired = true;
+									
+									AWS.config.credentials.get(function(err)
 									{
-										console.log(err, err.stack);
-										
-										loginPageObject.displayErrorMessage("Email or password are incorrect");
-									}
-									else
-									{
-										// We have a valid login, so save the session info in a cookie that expires tomorrow
-										Cookies.set("userId", response.data.authenticatedUser.userId, { expires: 1 });
-										Cookies.set("identityId", response.data.authenticatedUser.identityId, { expires: 1 });
-										Cookies.set("openIdToken", response.data.authenticatedUser.openIdToken, { expires: 1 });
-										Cookies.set("fullName", response.data.authenticatedUser.fullName, { expires: 1 });
-										
-										// Redirect the user to the index page.
-										window.location.href = "index.html";
-									}
-						    	});
-							}
-							else
-							{
-								loginPageObject.displayErrorMessage(response.statusMessage);
-							}
-		                },
-		                error: function (data) 
-		                {
-		                	console.log(data);
-		                	
-		                	loginPageObject.displayErrorMessage("Unable to communicate with server");
-		                }
-					});
+										if(err)
+										{
+											console.log(err, err.stack);
+											
+											loginPageObject.displayErrorMessage("Email or password are incorrect");
+										}
+										else
+										{
+											// We have a valid login, so save the session info in a cookie that expires tomorrow
+											Cookies.set("userId", response.data.authenticatedUser.userId, { expires: 1 });
+											Cookies.set("identityId", response.data.authenticatedUser.identityId, { expires: 1 });
+											Cookies.set("openIdToken", response.data.authenticatedUser.openIdToken, { expires: 1 });
+											Cookies.set("fullName", response.data.authenticatedUser.fullName, { expires: 1 });
+											
+											// Redirect the user to the index page.
+											window.location.href = "index.html";
+										}
+							    	});
+								}
+								else
+								{
+									loginPageObject.displayErrorMessage(response.statusMessage);
+								}
+			                },
+			                error: function (data) 
+			                {
+			                	console.log(data);
+			                	
+			                	loginPageObject.displayErrorMessage("Unable to communicate with server");
+			                }
+						});
+					}
 				}
 				
 				this.displayErrorMessage = function(errorMessage)
