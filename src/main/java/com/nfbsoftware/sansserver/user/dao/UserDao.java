@@ -10,7 +10,7 @@ import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ScanRequest;
 import com.amazonaws.services.dynamodbv2.model.ScanResult;
-import com.nfbsoftware.sansserver.dynamodb.AbstractDynamoDbDao;
+import com.nfbsoftware.sansserverplugin.sdk.dynamodb.AbstractDynamoDbDao;
 import com.nfbsoftware.sansserver.user.model.User;
 
 /**
