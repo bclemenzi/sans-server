@@ -19,7 +19,17 @@ import com.nfbsoftware.sansserverplugin.sdk.util.StringUtil;
  * 
  * @author Brendan Clemenzi
  */
-@AwsLambdaWithGateway(name="AuthenticateUser", desc="SansServer authentication service", handlerMethod="handleRequest", memorySize="512", timeout="60", resourceName="authenticate", method=AwsLambdaWithGateway.MethodTypes.POST, authorization=AwsLambdaWithGateway.AuthorizationTypes.NONE, keyRequired=false, enableCORS=true)
+@AwsLambdaWithGateway(
+        name="AuthenticateUser", 
+        desc="Cordata authentication service", 
+        handlerMethod="handleRequest", 
+        memorySize="512", 
+        timeout="60", 
+        resourceName="authenticate", 
+        method=AwsLambdaWithGateway.MethodTypes.POST, 
+        authorization=AwsLambdaWithGateway.AuthorizationTypes.NONE, 
+        keyRequired=false, 
+        enableCORS=true)
 public class AuthenticateUser extends BaseLambdaHandler
 {
     /**
@@ -35,8 +45,8 @@ public class AuthenticateUser extends BaseLambdaHandler
         try
         {
             // Get the parameters for the request
-            String username = StringUtil.emptyIfNull(this.getParameter("username"));
-            String clearPassword = StringUtil.emptyIfNull(this.getParameter("password"));
+            String username = StringUtil.emptyIfNull((String)this.getBody("username"));
+            String clearPassword = StringUtil.emptyIfNull((String)this.getBody("password"));
             
             // Get a few runtime properties to pass back to our authenticated user
             String regionName = m_properties.getProperty(Entity.FrameworkProperties.AWS_REGION);
@@ -81,6 +91,7 @@ public class AuthenticateUser extends BaseLambdaHandler
                     authenticatedUser.setIdentityId(identityId);
                     authenticatedUser.setIdentityPoolId(identityPoolId);
                     authenticatedUser.setOpenIdToken(user.getOpenIdToken());
+                    authenticatedUser.setApiKey(user.getApiKey());
                     
                     // Add the model to the response map
                     handlerResponse.getData().put("authenticatedUser", authenticatedUser);

@@ -12,7 +12,12 @@ import com.nfbsoftware.sansserverplugin.sdk.util.StringUtil;
  * 
  * @author Brendan Clemenzi
  */
-@AwsLambda(name="ViewAuthenticatedUser", desc="Function to view a given user record", handlerMethod="handleRequest", memorySize="512", timeout="60")
+@AwsLambda(
+        name="ViewAuthenticatedUser", 
+        desc="Function to view a given user record", 
+        handlerMethod="handleRequest", 
+        memorySize="512", 
+        timeout="60")
 public class ViewAuthenticatedUser extends BaseLambdaHandler
 {
     /**

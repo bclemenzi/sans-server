@@ -12,7 +12,12 @@ import com.nfbsoftware.sansserverplugin.sdk.util.StringUtil;
  * 
  * @author Brendan Clemenzi
  */
-@AwsLambda(name="ViewUser", desc="Function to view a given user record", handlerMethod="handleRequest", memorySize="512", timeout="60")
+@AwsLambda(
+        name="ViewUser", 
+        desc="Function to view a given user record", 
+        handlerMethod="handleRequest", 
+        memorySize="512", 
+        timeout="60")
 public class ViewUser extends BaseLambdaHandler
 {
     /**
@@ -27,7 +32,7 @@ public class ViewUser extends BaseLambdaHandler
         
         try
         {
-            String userId = StringUtil.emptyIfNull(this.getParameter("userId"));
+            String userId = StringUtil.emptyIfNull((String)this.getInputObject("userId"));
             
             UserDao userDao = new UserDao(this.m_properties);
             

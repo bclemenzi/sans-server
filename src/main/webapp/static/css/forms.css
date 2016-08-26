@@ -1,0 +1,120 @@
+.page_information
+{
+	position: absolute;
+    right: 15px;
+    top: 15px;
+    z-index: 1031;
+}
+
+.page_button_bar
+{
+    float: right;
+}
+
+.page_message_bar
+{
+	background-color: #222222;
+    border-color: #636361;
+    border-radius: 5px;
+    border-style: solid;
+    color: #f2f3ee;
+    font-size: 12px;
+    font-weight: normal;
+    padding: 5px;
+    text-align: center;
+    position: static;
+    display: none;
+    z-index: 2000;
+    display: block;
+    margin-left: 35%;
+    position: absolute;
+    width: 400px;;
+    top: 16px;
+}
+
+.form_page_title
+{
+	font-size: 24px;
+    padding-bottom: 5px;
+    color: #333333;
+    font-weight: bold;
+}
+
+.form_page_heading
+{
+    color: #333333;
+    font-size: 15px;
+    font-weight: bold;
+    margin-left: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.form_content_panel
+{
+    background-color: #ffffff;
+    padding: 15px 25px;
+    position: relative;
+    top: 55px;
+}
+
+.form_label
+{
+    font-family: Arial,Verdana,sans-serif;
+	display: inline-block;
+	text-align: right;
+	width: 140px;
+}
+
+.form_labelhlt
+{
+	font-family: Arial,Verdana,sans-serif;
+	display: inline-block;
+	text-align: right;
+	width: 140px;
+	font-weight: bold;
+}
+
+.form_input_sm
+{
+	width: 75px;
+}
+
+.form_input_med
+{
+	width: 150px;
+}
+
+.form_input_lrg
+{
+	width: 300px;
+}
+
+.form_input_xl
+{
+	width: 450px;
+}
+
+.form_input_sm_list
+{
+	font-family: Arial,Verdana,sans-serif;
+	width: 75px;
+}
+
+.form_input_med_list
+{
+	font-family: Arial,Verdana,sans-serif;
+	width: 150px;
+}
+
+.form_input_lrg_list
+{
+	font-family: Arial,Verdana,sans-serif;
+	width: 300px;
+}
+
+.form_input_xl_list
+{
+	font-family: Arial,Verdana,sans-serif;
+	width: 450px;
+}

@@ -81,7 +81,7 @@
 			<plugin>
                 <groupId>com.nfbsoftware</groupId>
 				<artifactId>sans-server-plugin</artifactId>
-				<version>1.0.12</version>
+				<version>1.0.42</version>
             	<executions>
                 	<execution>
                 		<id>first-execution</id>
@@ -142,7 +142,7 @@
 		<dependency>
 			<groupId>com.amazonaws</groupId>
 			<artifactId>aws-java-sdk</artifactId>
-			<version>1.10.59</version>
+			<version>1.11.21</version>
 		</dependency>
 		<dependency>
 			<groupId>com.amazonaws</groupId>
@@ -152,7 +152,7 @@
 		<dependency>
 			<groupId>com.amazonaws</groupId>
 			<artifactId>aws-lambda-java-events</artifactId>
-			<version>1.1.0</version>
+			<version>1.3.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -162,7 +162,7 @@
 		<dependency>
 			<groupId>com.nfbsoftware</groupId>
 			<artifactId>sans-server-plugin</artifactId>
-			<version>1.0.12</version>
+			<version>1.0.42</version>
 		</dependency>
 	</dependencies>
 	

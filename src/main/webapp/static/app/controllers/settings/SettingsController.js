@@ -1,6 +1,9 @@
-define(['js/sansserver-jquery-expand',
+define([
+        'js/sansserver-jquery-expand',
+        'js/style-importer!css/forms',
         'js/kendo-template!app/views/settings/SettingsView'], function(
         		sansServerExpand, 
+        		fomrsStyle,
         		pageTemplate)
 { 
 	settingsObject = new function()
@@ -104,7 +107,7 @@ define(['js/sansserver-jquery-expand',
 				$("#saveSettingsButton").kDisable();
 				
 				sansServerUtility.lambdaCall(
-					globalAppConfig.environmentPrefix + 'UpdateUser', 
+					globalAppConfig.environmentPrefix + 'UpdateUserPassword', 
 					{
 						oldPassword: $("#oldPassword").val(),
 					    newPassword: $("#newPassword").val()
@@ -123,7 +126,7 @@ define(['js/sansserver-jquery-expand',
 			
 			$("#saveSettingsButton").kEnable();
 			
-			alert("You user settings have been saved");
+			alert("Your user settings have been saved");
 		}
 		
 		this.onError = function(err)

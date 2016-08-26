@@ -6,16 +6,15 @@ define(["kendo.all.min"], function(kendo)
     {
     	/* MAIN MENU ROUTING */
     	m_applicationRouter.route("/", function() {
-        	loadController("hub/HomeController");
+        	loadController("hub/EditController");
     	});
-    	m_applicationRouter.route("home", function() {
-        	loadController("hub/HomeController");
-    	});
-    	m_applicationRouter.route("users", function() {
-        	loadController("user/ViewUsersController");
-    	});
-    	m_applicationRouter.route("settings", function() {
-        	loadController("settings/SettingsController");
+    	
+    	m_applicationRouter.route("editUser/:userId", function(userId) {
+        	var parameters = {
+        		userId: userId
+    		};
+
+        	loadController("user/EditUserController", parameters);
     	});
 
     	// Start our main router

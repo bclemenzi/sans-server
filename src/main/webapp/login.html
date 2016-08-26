@@ -9,26 +9,21 @@
     	<title>SansServer - Login</title>
     	<link href="https://fonts.googleapis.com/css?family=Oleo+Script" rel="stylesheet" type="text/css" />
 		<link href="static/css/login.css" rel="stylesheet" type="text/css"/>
-		<script src="static/js/jquery.min.js"></script>
+		<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 		<script src="static/js/aws-sdk.min.js"></script>
 		<script src="static/js/jquery.cookie.js"></script>
 		<script src="static/js/sansserver-jquery-expand.js"></script>
 		<script src="static/js/sanserver-utility.js"></script>
 		<script src="generated/global-app-config.js"></script>
-		<script>
-		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-		
-		  ga('create', 'UA-55354143-2', 'auto');
-		  ga('send', 'pageview');
-		</script>
 	</head>
 	<body>
 		<div id="wrapper">
 			<div id="content" class="padded">
-				<div id="loginLogo">SansServer<br/><span id="loginLogoSubHead">Sample Web Application</span></div>
+				<div id="loginLogo">
+					<span id="loginLogoHeading">SansServer</span>
+					<br/>
+					<span id="loginLogoSubHead">Powered by NFB Software</span>
+				</div>
 				<div id="loginElements">
 					<div id="loginForm" class="fm-v clearfix" style="padding-left: 20px;">
 						<div id="errorMessage" class="errors" style="display: none;"></div>
@@ -58,7 +53,7 @@
 				</div>
 			</div>
 			<div id="copyright">
-				<p>Copyright (c) 2016 SansServer, an NFB Software property. All rights reserved.</p>
+				<p>Copyright (c) 2016 SansServer, an NFB Software. property. All rights reserved.</p>
             </div>
 		</div>
 	</body>
@@ -74,8 +69,18 @@
 			{
 				this.initPage = function()
 				{
+					// Make sure we are using the https version of the site.
+					if(window.location.protocol != "https:")
+					{
+						window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
+					}
+					
 					$("#loginSubmitButton").click(function(){
 						loginPageObject.submitLoginForm();
+					});
+					
+					$("#selfRegistrationMessage").click(function(){
+						window.location.href = "registration.html";
 					});
 					
 					$("#username").enterKeyPress(function(){
@@ -90,13 +95,10 @@
 						$("#password").val("");
 						
 						Cookies.set("userId", "NONE", { expires: 1 });
+						Cookies.set("apiKey", "NONE", { expires: 1 });
 						Cookies.set("identityId", "NONE", { expires: 1 });
 						Cookies.set("openIdToken", "NONE", { expires: 1 });
 						Cookies.set("fullName", "", { expires: 1 });
-					});
-					
-					$("#selfRegistrationMessage").click(function(){
-						window.location.href = "registration.html";
 					});
 				}
 				
@@ -123,6 +125,7 @@
 							type: "POST",
 							cache:false,
 							dataType: "json",
+							contentType: "application/json",
 							success: function (response) 
 							{
 								console.log(response);
@@ -149,12 +152,13 @@
 										{
 											// We have a valid login, so save the session info in a cookie that expires tomorrow
 											Cookies.set("userId", response.data.authenticatedUser.userId, { expires: 1 });
+											Cookies.set("apiKey", response.data.authenticatedUser.apiKey, { expires: 1 });
 											Cookies.set("identityId", response.data.authenticatedUser.identityId, { expires: 1 });
 											Cookies.set("openIdToken", response.data.authenticatedUser.openIdToken, { expires: 1 });
 											Cookies.set("fullName", response.data.authenticatedUser.fullName, { expires: 1 });
 											
 											// Redirect the user to the index page.
-											window.location.href = "index.html";
+											window.location.href = globalAppConfig.environmentSiteUrl + "/index.html";
 										}
 							    	});
 								}

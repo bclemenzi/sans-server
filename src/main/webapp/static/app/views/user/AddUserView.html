@@ -1,0 +1,39 @@
+<div id="pageHeader">
+	<div class="page_information">
+		<div id="headerButtonBar" class="page_button_bar">
+			<button id="editorPageCancelButton" class="nfb-button" type="button">CANCEL</button>
+			<button id="editorPageSaveButton" class="nfb-button" type="button">SAVE</button>
+		</div>
+	</div>
+	<div id="messagePanel" class="k-widget k-tooltip k-tooltip-validation k-invalid-msg page_message_bar" style="display: none;"></div>
+</div>
+<div class="form_content_panel">
+	<div id="pageTitle" class="form_page_title">Edit this User</div>
+	<hr/>
+	<div id="pageContentForm" style="display: none;">
+		<br/>
+		<div style="line-height: 2.75em;">
+			<label for="username" class="form_labelhlt">Email Address:&nbsp;</label>
+			<input type="text" id="username" name="username" class="k-textbox form_input_med" placeholder="example@domain.com" validationMessage="Please enter a valid email address" maxlength="250" required/>	 
+			<span class="k-invalid-msg" data-for="username"></span>
+		</div>
+		<div style="line-height: 2.75em;">
+			<label for="fullName" class="form_labelhlt">Full Name:&nbsp;</label>
+			<input type="text" id="fullName" name="fullName" class="k-textbox form_input_lrg" placeholder="Joe Smith" validationMessage="Please enter a full name" maxlength="100" required/>	 
+			<span class="k-invalid-msg" data-for="fullName"></span>
+		</div>
+		<div style="line-height: 2.75em;">
+ 			<label for="newPassword" class="form_label">New Password:&nbsp;</label>
+			<input type="password" id="newPassword" name="newPassword" class="k-textbox form_input_med"/>	            						
+			<span class="k-invalid-msg" data-for="newPassword"></span>
+		</div>
+		<div style="line-height: 2.75em;">
+ 			<label for="confirmPassword" class="form_label">Confirm Password:&nbsp;</label>
+			<input type="password" id="confirmPassword" name="confirmPassword" class="k-textbox form_input_med"/>	            						
+			<span class="k-invalid-msg" data-for="confirmPassword"></span>
+		</div>
+	</div>
+	<div id="pageContentLoading">
+		<div style="min-height: 500px;" class="panel"><div id="pageLoadingPanel" class="loadingPanel"><img src="static/images/loading-image.gif"/></div></div>
+	</div>
+</div>

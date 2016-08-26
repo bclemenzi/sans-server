@@ -10,8 +10,8 @@ import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ScanRequest;
 import com.amazonaws.services.dynamodbv2.model.ScanResult;
-import com.nfbsoftware.sansserverplugin.sdk.dynamodb.AbstractDynamoDbDao;
 import com.nfbsoftware.sansserver.user.model.User;
+import com.nfbsoftware.sansserverplugin.sdk.dynamodb.AbstractDynamoDbDao;
 
 /**
  * The UserManager is an implementation class used to manage the CRUD operations for the User model objects in DynamoDB

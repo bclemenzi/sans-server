@@ -11,6 +11,7 @@ public class AuthenticatedUser
     private String fullName;
     private String region;
     private String identityId;
+    private String apiKey;
     private String identityPoolId;
     private String openIdToken;
     
@@ -57,6 +58,15 @@ public class AuthenticatedUser
     public void setIdentityPoolId(String identityPoolId)
     {
         this.identityPoolId = identityPoolId;
+    }
+    
+    public String getApiKey()
+    {
+        return apiKey;
+    }
+    public void setApiKey(String apiKey)
+    {
+        this.apiKey = apiKey;
     }
     
     public String getOpenIdToken()

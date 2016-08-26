@@ -12,10 +12,11 @@ Features
 
   * Java-based Lambda Functions identified by sans-server-plugin annotations
   * SPA (single-page-application) Web application front-end with Unauthenticated and Authenticated pages
-  * Project properties file used at runtime
-  * Configuration schema to allow for the isolation of multiple deployments:  Multi-Engineer Development, QA, Production
-  * JUnit test harness for locally testing your Lambda functions before deployment
+  * Web application uses KendoUI developed by great people over at Telerik (http://www.telerik.com/kendo-ui)
   * Uses SansServer Plugin/SDK (https://github.com/bclemenzi/sans-server-plugin) to build and deploy application to Amazon Web Services
+   * Project properties file used at runtime
+   * JUnit test harness for locally testing your Lambda functions before deployment
+   * Configuration schema to allow for the isolation of multiple deployments:  Multi-Engineer Development, QA, Production
   
 Demo Site
 ---------------
@@ -35,6 +36,10 @@ The SansServer application uses the sans-server-plugin to build, test, provision
 
  * mvn clean package
   * Clean and package should be used to build our source code and execute our JUnit test cases.
+ * mvn clean package shade:shade com.nfbsoftware:sans-server-plugin:build-properties com.nfbsoftware:sans-server-plugin:deploy-lambda
+  * Build, test, and Deploy just our Lambda functions - This is ideal when working on the back-end of your application
+ * mvn clean package com.nfbsoftware:sans-server-plugin:deploy-webapp
+  * Deploy just our web application - This is ideal when working on the UI of your application
  * mvn clean package shade:shade install
   * Adding shade:shade will package (JAR) our Java class files for Lambda deployment within Amazon Web Services.  The install goal performs the AWS configurations and deploys our code for use in the cloud.  Please see the sans-server-plugin project (https://github.com/bclemenzi/sans-server-plugin) to learn more about the available features found inside the plugin.
 
@@ -59,7 +64,12 @@ import com.nfbsoftware.sansserver.user.model.User;
  * 
  * @author Brendan Clemenzi
  */
-@AwsLambda(name="ViewUser", desc="Function to view a given user record", handlerMethod="handleRequest")
+@AwsLambda(
+        name="ViewUser", 
+        desc="Function to view a given user record", 
+        handlerMethod="handleRequest", 
+        memorySize="512", 
+        timeout="60")
 public class ViewUser extends BaseLambdaHandler
 {
     /**
@@ -74,14 +84,12 @@ public class ViewUser extends BaseLambdaHandler
         
         try
         {
-        	//  Get our request parameter
-            String username = StringUtil.emptyIfNull(this.getParameter("username"));
+            String userId = StringUtil.emptyIfNull((String)this.getInputObject("userId"));
             
-            // Init out User DAO for talking with DynamoDB
             UserDao userDao = new UserDao(this.m_properties);
             
-            m_logger.log("Get user record by username: " + username);
-            User user = userDao.getUser(username);
+            m_logger.log("Get user record by id: " + userId);
+            User user = (User)userDao.scanUser("USER_ID", userId).get(0);
             
             if(user != null)
             {
@@ -140,8 +148,22 @@ public class ViewUserTest
     @BeforeClass
     public static void createInput() throws IOException
     {
-        input = new LinkedHashMap<String, String>();
-        input.put("username", "brendan@clemenzi.com");
+        input = new HashMap<String, Object>();
+        
+        // Declair our hash maps to mimic a client request through the gateway api
+        HashMap<String, Object> headerHash = new HashMap<String, Object>();
+        HashMap<String, Object> paramsHash = new HashMap<String, Object>();
+        HashMap<String, Object> queryHash = new HashMap<String, Object>();
+        HashMap<String, Object> bodyHash = new HashMap<String, Object>();
+        
+        // Set body elements
+        input.put("userId", "097f50a3-3481-4ab3-a7f2-b0ffcdece0e6");
+        
+        // Put the hash maps on the input
+        input.put("headers", headerHash);
+        input.put("params", paramsHash);
+        input.put("query", queryHash);
+        input.put("body", bodyHash);
     }
 
     private Context createContext()

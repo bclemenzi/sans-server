@@ -36,6 +36,9 @@ public class User implements Serializable
     @DynamoDBAttribute(attributeName="IDENTITY_ID")
     private String identityId;
     
+    @DynamoDBAttribute(attributeName="API_KEY")
+    private String apiKey;
+    
     @DynamoDBAttribute(attributeName="ACTIVE")
     private boolean active;
     
@@ -109,5 +112,14 @@ public class User implements Serializable
     public void setActive(boolean active)
     {
         this.active = active;
+    }
+    
+    public String getApiKey()
+    {
+        return apiKey;
+    }
+    public void setApiKey(String apiKey)
+    {
+        this.apiKey = apiKey;
     }
 }

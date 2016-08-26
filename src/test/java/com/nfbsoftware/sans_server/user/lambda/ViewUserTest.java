@@ -1,7 +1,7 @@
 package com.nfbsoftware.sans_server.user.lambda;
 
 import java.io.IOException;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -20,13 +20,27 @@ import com.nfbsoftware.sansserverplugin.sdk.lambda.model.HandlerResponse;
  */
 public class ViewUserTest
 {
-    private static LinkedHashMap<String, String> input;
+    private static HashMap<String, Object> input;
 
     @BeforeClass
     public static void createInput() throws IOException
     {
-        input = new LinkedHashMap<String, String>();
+        input = new HashMap<String, Object>();
+        
+        // Declair our hash maps to mimic a client request through the gateway api
+        HashMap<String, Object> headerHash = new HashMap<String, Object>();
+        HashMap<String, Object> paramsHash = new HashMap<String, Object>();
+        HashMap<String, Object> queryHash = new HashMap<String, Object>();
+        HashMap<String, Object> bodyHash = new HashMap<String, Object>();
+        
+        // Set body elements
         input.put("userId", "097f50a3-3481-4ab3-a7f2-b0ffcdece0e6");
+        
+        // Put the hash maps on the input
+        input.put("headers", headerHash);
+        input.put("params", paramsHash);
+        input.put("query", queryHash);
+        input.put("body", bodyHash);
     }
 
     private Context createContext()

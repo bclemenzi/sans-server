@@ -9,26 +9,21 @@
     	<title>SansServer - Registration</title>
     	<link href="https://fonts.googleapis.com/css?family=Oleo+Script" rel="stylesheet" type="text/css" />
 		<link href="static/css/login.css" rel="stylesheet" type="text/css"/>
-		<script src="static/js/jquery.min.js"></script>
+		<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 		<script src="static/js/aws-sdk.min.js"></script>
 		<script src="static/js/jquery.cookie.js"></script>
 		<script src="static/js/sansserver-jquery-expand.js"></script>
 		<script src="static/js/sanserver-utility.js"></script>
 		<script src="generated/global-app-config.js"></script>
-		<script>
-		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-		
-		  ga('create', 'UA-55354143-2', 'auto');
-		  ga('send', 'pageview');
-		</script>
 	</head>
 	<body>
 		<div id="wrapper">
 			<div id="content" class="padded">
-				<div id="loginLogo">SansServer<br/><span id="loginLogoSubHead">Self Registration Form&nbsp;&nbsp;&nbsp;</span></div>
+				<div id="loginLogo">
+					<span id="loginLogoHeading">SansServer</span>
+					<br/>
+					<span id="loginLogoSubHead">Powered by NFB Software</span>
+				</div>
 				<div id="registrationElements">
 					<div id="loginForm" class="fm-v clearfix" style="padding-left: 20px;">
 						<div id="errorMessage" class="errors">Please fill out the form below to register for a new demo account</div>
@@ -72,7 +67,7 @@
 				</div>
 			</div>
 			<div id="copyright">
-				<p>Copyright (c) 2016 SansServer, an NFB Software property. All rights reserved.</p>
+				<p>Copyright (c) 2016 SansServer, an NFB Software. property. All rights reserved.</p>
             </div>
 		</div>
 	</body>
@@ -88,6 +83,12 @@
 			{
 				this.initPage = function()
 				{
+					// Make sure we are using the https version of the site.
+					if(window.location.protocol != "https:")
+					{
+						window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);
+					}
+					
 					$("#registerButton").click(function(){
 						selfRegistrationObject.submitRegistrationForm();
 					});
@@ -120,19 +121,20 @@
 					 	$("#processingDiv").show();
 					 	$("#successDiv").hide();
 					 	
-						var requestBody = {
+					 	var requestBody = {
 								fullName: $("#fullName").val(),
 								username: $("#username").val(),
 								password: $("#password").val()
 						};
-						
+					 	
 						$.ajax(
 						{
 							url: globalAppConfig.baseServiceUrl + "/userRegistration",
 							data: JSON.stringify(requestBody),
-							type: "POST",
-							cache:false,
+							cache: false,
 							dataType: "json",
+							contentType: "application/json",
+							type: "POST",
 							success: function (response) 
 							{
 								console.log(response);

@@ -1,17 +1,17 @@
 define([], function(){
- 
+	 
 	var userModel = kendo.data.Model.define({
 		id: "id"
 	});
 	
-	var userFilesListDatasource = {
-		awsCredentials: AWS.config.credentials,
+	var usersDatasource = {
 		transport: {
 			read: {
-				url: "api/viewUsers",
-				functionName: "viewUsers",
+				url: globalAppConfig.baseServiceUrl + "/getUsers",
 				cache: false,
-				dataType: "json"
+				dataType: "json",
+				contentType: "application/json",
+				type: "POST"
 			}
 		},
 		batch: false,
@@ -20,10 +20,10 @@ define([], function(){
 		pageSize: 12,
 		schema: {
 			model: userModel,
-			data: "users",
-			total: "pageTotal"
+			data: "data.users",
+			total: "data.pageTotal"
 		}
 	};
      
-    return userModel;
+    return usersDatasource;
 });

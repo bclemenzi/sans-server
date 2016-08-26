@@ -83,6 +83,7 @@ var sansServerUtility = new function()
 		        		else
 		        		{
 		        			var output = JSON.parse(data.Payload);
+		        			console.log(output);
 		        			
 		        			successFunction(output);
 		        		}
@@ -90,6 +91,145 @@ var sansServerUtility = new function()
 		    	);
 	    	}
 	    });
+	}
+	
+	/**
+	 * The alertDialog function is used to launch a generic alert dialog box with a given message.
+	 *
+	 * @param {String} alertMessage
+	 */
+	this.alertDialog = function(alertMessage)
+	{
+		sansServerUtility.alertDialogWithTitle(alertMessage,'Message');
+	}
+
+	/**
+	 * The alertDialogWithTitle function is used to launch a generic alert dialog box with a given message and a given title.
+	 *
+	 * @param {String} alertMessage
+	 * @param {String} dialogTitleStr  title for the pop up window
+	 */
+	this.alertDialogWithTitle = function(alertMessage, dialogTitleStr)
+	{
+		var content =
+					  "<div class='alert-dialog'>" +
+					  "   <p class='alert-dialog-message'>" + alertMessage + "</p>" +
+					  "   <div class='alert-dialog-button-bar'>" +
+					  "     <a class='alert-dialog-ok-button k-button k-button-icontext'>OK</a>"
+					  "   </div>" +
+					  "</div>";
+
+		var kendoWindow = $("<div></div>").kendoWindow(
+		{
+			close: function(){kendoWindow.data("kendoWindow").destroy()},
+			draggable: false,
+			height: 150,
+			width: 400,
+			title: dialogTitleStr,
+			modal: true
+		});
+
+		kendoWindow.data("kendoWindow").content(content).center().open();
+
+		kendoWindow.find(".og-alert-dialog-ok-button, .k-button").click(function(e)
+		{
+			kendoWindow.data("kendoWindow").close();
+
+			// Prevent the click from changing the url hash
+			e.preventDefault();
+		});
+	}
+	
+	this.confirmationDialog = function(alertMessage, confirmFunction, denyFunction, functionData)
+	{
+		var content =
+			"<p>"+alertMessage+"</p>"+
+			"<button id='delete-yes' class='k-button og-button'>" + $.i18n.t('yes') + "</button>&nbsp;"+
+			"<button id='delete-no' class='k-button og-button'>" + $.i18n.t('no') + "</button>";
+
+		var kendoWindow = $("<div></div>").kendoWindow({
+				width: "410px",
+				height: "160px",
+				title: $.i18n.t('confirmAction'),
+				resizable: false,
+				modal: true,
+				close: function(){kendoWindow.data("kendoWindow").destroy()},
+			});
+
+		kendoWindow.data("kendoWindow")
+			.content(content)
+			.center().open();
+
+		kendoWindow
+			.find("#delete-yes,#delete-no")
+			.click(function(e)
+			{
+				if ($(this).attr('id')=="delete-yes")
+				{
+					var id = $(this).attr('id');
+					confirmFunction(functionData);
+				}
+				else
+				{
+					var id = $(this).attr('id');
+					if(typeof denyFunction !== 'undefined')
+					{
+						denyFunction(functionData);
+					}
+				}
+
+				kendoWindow.data("kendoWindow").close();
+
+				// Prevent the click from changing the url hash
+				e.preventDefault();
+			})
+			.end();
+	}
+
+	this.confirmationDialogWithTitle = function(dialogTitleStr, alertMessage, confirmFunction, denyFunction, functionData)
+	{
+		var content =
+			"<p>"+alertMessage+"</p>"+
+			"<button id='delete-yes' class='k-button og-button'>" + $.i18n.t('yes') + "</button>&nbsp;"+
+			"<button id='delete-no' class='k-button og-button'>" + $.i18n.t('no') + "</button>";
+
+		var kendoWindow = $("<div></div>").kendoWindow({
+				width: "410px",
+				height: "160px",
+				title: dialogTitleStr,
+				resizable: false,
+				modal: true,
+				close: function(){kendoWindow.data("kendoWindow").destroy()},
+			});
+
+		kendoWindow.data("kendoWindow")
+			.content(content)
+			.center().open();
+
+		kendoWindow
+			.find("#delete-yes,#delete-no")
+			.click(function(e)
+			{
+				if ($(this).attr('id')=="delete-yes")
+				{
+					var id = $(this).attr('id');
+					confirmFunction(functionData);
+				}
+				else
+				{
+					var id = $(this).attr('id');
+					if(typeof denyFunction !== 'undefined')
+					{
+						denyFunction(functionData);
+					}
+				}
+
+				kendoWindow.data("kendoWindow").close();
+
+				// Prevent the click from changing the url hash
+				e.preventDefault();
+			})
+			.end();
 	}
 	
 	/**
@@ -112,6 +252,72 @@ var sansServerUtility = new function()
 		{
 			// Navigate without the processing image since we are not leaving the page
 			router.navigate(rashRoute, silentMode);
+		}
+	}
+	
+	/**
+	 * The launchFullPageDialog function is used to launch a full page dialog to render a secondary navigation panel.
+	 *
+	 * @param {String} pageUrl
+	 * @param {String} callbackFunction
+	 */
+	this.launchFullPageDialog = function(id, pageUrl, callbackFunction)
+	{
+		var kendoWindow = $("<div id='" + id + "' class='navigationFullPageDialog' style='padding:0;'></div>").kendoWindow(
+		{
+			close: function()
+			{
+				try
+				{
+					// Execute the callback function
+					callbackFunction();
+				}
+				catch(err)
+				{
+					console.log("Error executing launchFullPageDialog callbackFunction");
+					console.log(err);
+				}
+				
+				kendoWindow.data("kendoWindow").destroy();
+			},
+			animation:
+			{
+			    open: false
+			},
+			iframe: true,
+			draggable: false,
+			resizable: false,
+			modal: true,
+			title: false,
+			height:'99%'
+		});
+		
+		kendoWindow.data("kendoWindow").refresh({url: pageUrl});
+		
+		var iframeDomElement = kendoWindow.children("iframe")[0];
+		iframeDomElement.setAttribute("allowfullscreen","");
+		kendoWindow.data("kendoWindow").open();
+		kendoWindow.data("kendoWindow").maximize();
+		
+		console.log("launchFullPageDialog (kendoWindow): " + id);
+	}
+	
+	/**
+	 * The closeFullPageDialog will close the full page dialog box launched form the parent window
+	 *
+	 * @param id
+	 */
+	this.closeFullPageDialog = function(id)
+	{
+		try
+		{
+			window.parent.$("#" + id).data("kendoWindow").close();
+		}
+		catch(err)
+		{
+			console.log(err);
+			console.log("closeFullPageDialog (window.close): " + id);
+			window.close();
 		}
 	}
 }

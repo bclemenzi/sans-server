@@ -15,17 +15,17 @@ import com.nfbsoftware.sansserverplugin.sdk.util.StringUtil;
  * @author Brendan Clemenzi
  */
 @AwsLambdaWithGateway(
-        name="ViewUsers", 
+        name="GetUsers", 
         desc="Function to view all the users in the system", 
         handlerMethod="handleRequest", 
         memorySize="512", 
         timeout="60", 
-        resourceName="viewUsers", 
+        resourceName="getUsers", 
         method=AwsLambdaWithGateway.MethodTypes.POST, 
         authorization=AwsLambdaWithGateway.AuthorizationTypes.NONE, 
         keyRequired=true, 
         enableCORS=true)
-public class ViewUsers extends BaseLambdaHandler
+public class GetUsers extends BaseLambdaHandler
 {
     /**
      * 

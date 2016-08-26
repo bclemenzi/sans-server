@@ -17,6 +17,11 @@ body.ApplicationWrapper
     background-repeat: no-repeat;
 }
 
+body.EditorDialogWrapper
+{
+    background-color: #ffffff;
+}
+
 .loadingPanel
 {
 	display: flex;
@@ -27,7 +32,6 @@ body.ApplicationWrapper
 
 .topbar
 {
-	border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 	left: 0;
     position: fixed;
     right: 0;
@@ -70,6 +74,18 @@ body.ApplicationWrapper
     height: 50px;
     padding: 20px 0 5px 5px;
     text-decoration: none;
+}
+
+.poweredBy
+{
+    color: #ffffff;
+    display: block;
+    float: left;
+    font-family: "Oleo Script",cursive;
+    font-size: 12px;
+    margin-left: 10px;
+    position: relative;
+    top: 28px;
 }
 
 .pull-left 
@@ -135,7 +151,7 @@ hr
 .welcomeBarWrapper
 {
 	float:right;
-	padding-top: 10px;	
+	padding-top: 15px;	
 }
 
 #WelcomeBar
@@ -143,41 +159,6 @@ hr
 	margin-right: 20px;	
 	color: #FFFFFF;
 	font-size: 16px;	
-}
-
-.nfb-button:hover
-{
-	background: -webkit-radial-gradient(#96C4FF, #7EA5D7) repeat scroll 0 0 rgba(0, 0, 0, 0);
-	background: -o-radial-gradient(#96C4FF, #7EA5D7) repeat scroll 0 0 rgba(0, 0, 0, 0);
-	background: -moz-radial-gradient(#96C4FF, #7EA5D7) repeat scroll 0 0 rgba(0, 0, 0, 0);
-	background: radial-gradient(#96C4FF, #7EA5D7) repeat scroll 0 0 rgba(0, 0, 0, 0);
-	border: 0 none;
-	border-radius: 5px 5px 5px 5px;
-	clear: none;
-	color: #FFFFFF;
-	display: inline;
-	float: none;
-	font-size: 12px;
-	letter-spacing: 0;
-	outline: 1px none;
-	padding: 8px;
-	cursor:pointer;
-}
-
-.nfb-button
-{
-	background-color: #7EA5D7;
-	border: 1px none;
-	border-radius: 5px 5px 5px 5px;
-	clear: none;
-	color: #FFFFFF;
-	display: inline;
-	float: none;
-	font-size: 12px;
-	letter-spacing: 0;
-	outline: 0 none;
-	padding: 8px;
-	cursor:pointer;
 }
 
 .copyright 
@@ -233,6 +214,15 @@ hr
 	background-image: url("../images/menu-admin-on.png");
 }
 
+.menu-organizations
+{
+	background-image: url("../images/menu-organizations-off.png");
+}
+.menu-organizations:hover
+{
+	background-image: url("../images/menu-organizations-on.png");
+}
+
 .menu-users
 {
 	background-image: url("../images/menu-users-off.png");
@@ -251,63 +241,65 @@ hr
 	background-image: url("../images/menu-settings-on.png");
 }
 
-.form_label
+.nfb-button:hover
 {
-    font-family: Arial,Verdana,sans-serif;
-	display: inline-block;
-	text-align: right;
-	width: 140px;
+	background: -webkit-radial-gradient(#96C4FF, #7EA5D7) repeat scroll 0 0 rgba(0, 0, 0, 0);
+	background: -o-radial-gradient(#96C4FF, #7EA5D7) repeat scroll 0 0 rgba(0, 0, 0, 0);
+	background: -moz-radial-gradient(#96C4FF, #7EA5D7) repeat scroll 0 0 rgba(0, 0, 0, 0);
+	background: radial-gradient(#96C4FF, #7EA5D7) repeat scroll 0 0 rgba(0, 0, 0, 0);
+	border: 0 none;
+	border-radius: 5px 5px 5px 5px;
+	clear: none;
+	color: #FFFFFF;
+	display: inline;
+	float: none;
+	font-size: 12px;
+	letter-spacing: 0;
+	outline: 1px none;
+	padding: 5px 20px;
+	margin-left: 10px;
+	cursor:pointer;
 }
 
-.form_labelhlt
+.nfb-button
 {
-	font-family: Arial,Verdana,sans-serif;
-	display: inline-block;
-	text-align: right;
-	width: 140px;
-	font-weight: bold;
+	background-color: #7EA5D7;
+	border: 1px none;
+	border-radius: 5px 5px 5px 5px;
+	clear: none;
+	color: #FFFFFF;
+	display: inline;
+	float: none;
+	font-size: 12px;
+	letter-spacing: 0;
+	outline: 0 none;
+	padding: 5px 20px;
+	margin-left: 10px;
+	cursor:pointer;
 }
 
-.form_input_sm
+.page-title-box
 {
-	width: 75px;
+	display: flex;
 }
 
-.form_input_med
+.page-title-buttons
 {
-	width: 150px;
+	position: absolute; 
+	right: 16px;
 }
 
-.form_input_lrg
+div.k-window-content.navigationFullPageDialog
 {
-	width: 300px;
+	overflow:hidden;
 }
 
-.form_input_xl
+.navigationFullPageDialog
 {
-	width: 450px;
+	padding: 0px;
 }
 
-.form_input_sm_list
+div.navigationFullPageDialog.k-window-content.k-content.k-window-iframecontent
 {
-	font-family: Arial,Verdana,sans-serif;
-	width: 75px;
-}
-
-.form_input_med_list
-{
-	font-family: Arial,Verdana,sans-serif;
-	width: 150px;
-}
-
-.form_input_lrg_list
-{
-	font-family: Arial,Verdana,sans-serif;
-	width: 300px;
-}
-
-.form_input_xl_list
-{
-	font-family: Arial,Verdana,sans-serif;
-	width: 450px;
+	overflow: hidden;
 }
